@@ -15,7 +15,7 @@ if (input) {
 
   if (inputType === "id") {
     // Fetch channel info from Worker
-    const apiUrl = `https://ytincomecalculator.pages.dev/?channel=${cleanedInput}`;
+    const apiUrl = `/api-channel?channel=${cleanedInput}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
 if (data && (data.handle || data.title)) {
