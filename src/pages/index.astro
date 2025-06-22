@@ -15,7 +15,7 @@ if (input) {
 
   if (inputType === "id") {
     // Fetch channel info from Worker
-    const apiUrl = `http://localhost:8787?channel=${cleanedInput}`;
+    const apiUrl = `http://localhost:8787/?channel=${cleanedInput}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
 if (data && (data.handle || data.title)) {

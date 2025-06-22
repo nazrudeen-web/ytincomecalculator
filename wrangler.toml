@@ -1,0 +1,15 @@
+name = "ytincomecalculator"
+compatibility_date = "2025-06-22"
+compatibility_flags = [ "nodejs_compat" ]
+
+[vars]
+PUBLIC_YOUTUBE_API_KEY_1 = "AIzaSyDtYXhm9b_NLnqFhofR6rLcRPuy-INWpF4"
+PUBLIC_YOUTUBE_API_KEY_2 = "AIzaSyDanJmIDxpcGzP-1d6B1KsIPiEdnbRTVAU"
+
+[[kv_namespaces]]
+binding = "CHANNEL_KV"
+id = "9f8f684ec2b147c684bec9b195bc19a1"
+
+[observability]
+enabled = true
+

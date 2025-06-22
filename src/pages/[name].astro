@@ -2,7 +2,7 @@
 import BaseLayout from "../layout/BaseLayout.astro";
 const { params } = Astro;
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
-const response = await fetch(`http://localhost:8787?channel=@${cleanName}`); // Local Worker URL
+const response = await fetch(`http://localhost:8787/?channel=@${cleanName}`); // Local Worker URL
 const data = await response.json();
 console.log("Worker response", data); // 🔍 For debugging
 
