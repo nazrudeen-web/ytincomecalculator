@@ -8,7 +8,7 @@ const pageTitle =
 
 const url = new URL(Astro.request.url);
 const input = url.searchParams.get("channel");
-const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "http://localhost:4321";
+
 if (input) {
   const cleanedInput = cleanInput(input);
   const inputType = detectInputType(cleanedInput);
@@ -16,6 +16,7 @@ if (input) {
   if (inputType === "id") {
     // Fetch channel info from Worker
     // const apiUrl = `/api-channel?channel=${cleanedInput}`;
+    const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "http://localhost:4321";
     const apiUrl = new URL(`/api-channel?channel=@${cleanedInput}`, siteOrigin).toString();
     const res = await fetch(apiUrl);
     const data = await res.json();
