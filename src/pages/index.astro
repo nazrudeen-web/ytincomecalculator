@@ -1,16 +1,93 @@
 ---
+import "../styles/global.css";
+import BaseLayout from "../layout/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
 
+const pageTitle =
+  "YouTube Earnings Calculator | Income Per View & Channel Stats";
+
+const url = new URL(Astro.request.url);
+const input = url.searchParams.get("channel");
+
+if (input) {
+  const cleanedInput = cleanInput(input);
+  const inputType = detectInputType(cleanedInput);
+
+  if (inputType === "id") {
+    // Fetch channel info from Worker
+    const apiUrl = `http://localhost:8787?channel=${cleanedInput}`;
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+if (data && (data.handle || data.title)) {
+  let baseName = data.handle
+    ? data.handle.replace(/^@+/, "")
+    : data.title.toLowerCase().replace(/\s+/g, "");
+
+  const cleanName = `${baseName}-net-worth`;
+  return Astro.redirect(`/${cleanName}`, 301);
+} else {
+  // fallback for broken redirect
+  return Astro.redirect("/not-found");
+}
+  } else {
+    // It's a name or handle
+  const baseName = cleanedInput.replace(/^@+/, "").replace(/\s+/g, "");
+  const cleanName = `${baseName}-net-worth`;
+  return Astro.redirect(`/${cleanName}`, 301);
+  }
+}
+
+function cleanInput(rawInput) {
+  const trimmed = rawInput.trim();
+
+  if (trimmed.startsWith("http")) {
+    try {
+      const url = new URL(trimmed);
+      const path = url.pathname;
+      return path.replace(/^\/+/, "");
+    } catch {
+      return trimmed;
+    }
+  }
+
+  return trimmed.replace(/^@+/, "");
+}
+
+function detectInputType(input) {
+  return /^UC[a-zA-Z0-9_-]{22}$/.test(input) ? "id" : "handleOrName";
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <Hero>
+    <form method="get" class="flex items-left space-x-4">
+      <div class="w-1/2 flex flex-col space-y-3.5">
+        <input
+          name="channel"
+          type="search"
+          placeholder="Enter YouTube channel name or URL"
+          required
+          class="w-full bg-white py-4 px-4 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+        <div class="flex space-x-2 space-y-2 items-center flex-wrap">
+          <p>For example:</p>
+          <p class="bg-gray-500/20 p-2 rounded-md py-2 px-4">
+            @mrbeast
+          </p>
+          <p class="bg-gray-500/20 p-2 rounded-md py-2 px-4">
+            UCX6OQ3DkcsbYNE6H8uQQuVA
+          </p>
+          <p class="bg-gray-500/20 py-2 px-4 rounded-md">
+            https://youtube.com/@mrbeast
+          </p>
+        </div>
+      </div>
+      <div>
+        <button
+          class="bg-red-600 py-4 px-6 rounded-md font-semibold cursor-pointer"
+          >See Estimated Income</button
+        >
+      </div>
+    </form>
+  </Hero>
+</BaseLayout>

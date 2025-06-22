@@ -1,0 +1,15 @@
+name = "ytincomecalculator"
+compatibility_date = "2025-06-15"
+
+[vars]
+PUBLIC_YOUTUBE_API_KEY_1 = "AIzaSyDtYXhm9b_NLnqFhofR6rLcRPuy-INWpF4"
+PUBLIC_YOUTUBE_API_KEY_2 = "AIzaSyDanJmIDxpcGzP-1d6B1KsIPiEdnbRTVAU"
+
+[[kv_namespaces]]
+binding = "CHANNEL_KV"
+id = "your-namespace-id"
+
+[[routes]]
+pattern = "/api"
+zone_id = ""
+

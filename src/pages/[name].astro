@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layout/BaseLayout.astro";
+const { params } = Astro;
+const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
+const response = await fetch(`http://localhost:8787?channel=@${cleanName}`); // Local Worker URL
+const data = await response.json();
+console.log("Worker response", data); // 🔍 For debugging
+
+const isError = !response.ok || !data.title;
+---
+
+  
+<BaseLayout pageTitle={isError ? "Channel Not Found" : `${data.title} - YouTube Channel Stats`}>
+    {isError ? (
+      <div>
+        <h1>Channel not found</h1>
+        <p>Please check the URL and try again.</p>
+      </div>
+    ) : (
+      <>
+        <h1 class="text-3xl font-bold my-6">{data.title}</h1>
+        <img src={data.thumbnail} alt="Profile Image" width="150" />
+        <p><strong>Channel ID:</strong> {data.id}</p>
+        <p><strong>Custom URL:</strong> {data.customUrl}</p>
+        <p><strong>Published:</strong> {new Date(data.publishedAt).toDateString()}</p>
+        <p><strong>Subscribers:</strong> {parseInt(data.subscriberCount).toLocaleString()}</p>
+        <p><strong>Views:</strong> {parseInt(data.viewCount).toLocaleString()}</p>
+        <p><strong>Videos:</strong> {data.videoCount}</p>
+        {data.bannerExternalUrl && (
+          <>
+            <h3>Banner</h3>
+            <img src={data.bannerExternalUrl} alt="Banner" width="400" />
+          </>
+        )}
+        <h3>Description</h3>
+        <pre style="white-space: pre-wrap;">{data.description}</pre>
+        {data.topicCategories?.length > 0 && (
+          <>
+            <h3>Topic Categories</h3>
+            <ul>
+              {data.topicCategories.map((cat) => (
+                <li><a href={cat} target="_blank">{cat}</a></li>
+              ))}
+            </ul>
+          </>
+        )}
+        <p><strong>Country:</strong> {data.country || "N/A"}</p>
+      </>
+    )}
+</BaseLayout>
