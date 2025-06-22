@@ -3,33 +3,11 @@ import "../styles/global.css";
 import BaseLayout from "../layout/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 
-const pageTitle = "YouTube Earnings Calculator | Income Per View & Channel Stats";
+const pageTitle =
+  "YouTube Earnings Calculator | Income Per View & Channel Stats";
 
 const url = new URL(Astro.request.url);
 const input = url.searchParams.get("channel");
-
-if (input) {
-  const cleanedInput = cleanInput(input);
-  const inputType = detectInputType(cleanedInput);
-
-const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "https://ytincomecalculator.pages.dev";
-const apiUrl = new URL(`/api-channel?channel=${cleanedInput}`, siteOrigin).toString();
-
-
-  const res = await fetch(apiUrl);
-  const data = await res.json();
-
-  if (data && (data.handle || data.title)) {
-    let baseName = data.handle
-      ? data.handle.replace(/^@+/, "")
-      : data.title.toLowerCase().replace(/\s+/g, "");
-
-    const cleanName = `${baseName}-net-worth`;
-    return Astro.redirect(`/${cleanName}`, 301);
-  } else {
-    return Astro.redirect("/not-found");
-  }
-}
 
 function cleanInput(rawInput) {
   const trimmed = rawInput.trim();
@@ -47,6 +25,33 @@ function cleanInput(rawInput) {
 
 function detectInputType(input) {
   return /^UC[a-zA-Z0-9_-]{22}$/.test(input) ? "id" : "handleOrName";
+}
+
+// Real URL to fetch from, always full origin for SSR
+const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "https://ytincomecalculator.pages.dev";
+
+if (input) {
+  const cleanedInput = cleanInput(input);
+  const inputType = detectInputType(cleanedInput);
+
+  if (inputType === "id") {
+    const apiUrl = `${siteOrigin}/api-channel?channel=${cleanedInput}`;
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+    if (data && (data.handle || data.title)) {
+      const baseName = data.handle
+        ? data.handle.replace(/^@+/, "")
+        : data.title.toLowerCase().replace(/\s+/g, "");
+      const cleanName = `${baseName}-net-worth`;
+      return Astro.redirect(`/${cleanName}`, 301);
+    } else {
+      return Astro.redirect("/not-found");
+    }
+  } else {
+    const baseName = cleanedInput.replace(/^@+/, "").replace(/\s+/g, "");
+    const cleanName = `${baseName}-net-worth`;
+    return Astro.redirect(`/${cleanName}`, 301);
+  }
 }
 ---
 
@@ -69,7 +74,9 @@ function detectInputType(input) {
         </div>
       </div>
       <div>
-        <button class="bg-red-600 py-4 px-6 rounded-md font-semibold cursor-pointer">
+        <button
+          class="bg-red-600 py-4 px-6 rounded-md font-semibold cursor-pointer"
+        >
           See Estimated Income
         </button>
       </div>
