@@ -7,8 +7,7 @@ const { params } = Astro;
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
 
 // 2. Build full fetch URL to your Worker API
-const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "https://ytincomecalculator.pages.dev";
-const apiUrl = `https://ytincomecalculator.pages.dev/?channel=@${cleanName}`;
+const apiUrl = `https://yt-backend.ytincome.workers.dev/?channel=@${cleanName}`;
 
 // 3. Fetch channel data
 let data = null;

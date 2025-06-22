@@ -35,7 +35,7 @@ if (input) {
   const inputType = detectInputType(cleanedInput);
 
   if (inputType === "id") {
-    const apiUrl = `https://ytincomecalculator.pages.dev/?channel=${cleanedInput}`;
+    const apiUrl = `https://yt-backend.ytincome.workers.dev/?channel=${cleanedInput}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
     if (data && (data.handle || data.title)) {
