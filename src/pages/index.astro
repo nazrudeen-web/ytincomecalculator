@@ -12,8 +12,9 @@ if (input) {
   const cleanedInput = cleanInput(input);
   const inputType = detectInputType(cleanedInput);
 
-  const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "http://localhost:4321";
-  const apiUrl = new URL(`/api-channel?channel=${cleanedInput}`, siteOrigin).toString();
+const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "https://ytincomecalculator.pages.dev";
+const apiUrl = new URL(`/api-channel?channel=${cleanedInput}`, siteOrigin).toString();
+
 
   const res = await fetch(apiUrl);
   const data = await res.json();

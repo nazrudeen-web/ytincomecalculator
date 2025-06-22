@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   output: "server",
   adapter: cloudflare(),
+  site: "https://ytincomecalculator.pages.dev",
   // You can add other config here if needed
   vite: {
     plugins: [tailwindcss()],
