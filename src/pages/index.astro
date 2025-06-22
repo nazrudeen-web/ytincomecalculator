@@ -28,14 +28,14 @@ function detectInputType(input) {
 }
 
 // Real URL to fetch from, always full origin for SSR
-const siteOrigin = import.meta.env.PUBLIC_SITE_ORIGIN || "https://ytincomecalculator.pages.dev";
+const siteOrigin = "";
 
 if (input) {
   const cleanedInput = cleanInput(input);
   const inputType = detectInputType(cleanedInput);
 
   if (inputType === "id") {
-    const apiUrl = `${siteOrigin}/api-channel?channel=${cleanedInput}`;
+    const apiUrl = `https://ytincomecalculator.pages.dev/?channel=${cleanedInput}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
     if (data && (data.handle || data.title)) {
@@ -57,7 +57,7 @@ if (input) {
 
 <BaseLayout pageTitle={pageTitle}>
   <Hero>
-    <form method="get" action="/" class="flex items-left space-x-4">
+    <form method="get"  class="flex items-left space-x-4">
       <div class="w-1/2 flex flex-col space-y-3.5">
         <input
           name="channel"
