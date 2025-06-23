@@ -1,16 +1,18 @@
 ---
 import BaseLayout from "../layout/BaseLayout.astro";
-
+import NotFound from "./not-found.astro";
+import ChannelDetails from "../components/ChannelDetails.astro";
+import Hero from '../components/Hero.astro'
 const { params } = Astro;
 
 // 1. Remove "-net-worth" from the end to get clean name
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
 
 // 2. Build full fetch URL to your Worker API
-const apiUrl = `https://yt-backend.ytincome.workers.dev/?channel=@${cleanName}`;
+const apiUrl = `https://channelincome-backend.ytincome.workers.dev/?channel=@${cleanName}`;
 
 // 3. Fetch channel data
-let data = null;
+let data: any = null;
 let isError = false;
 
 try {
@@ -23,45 +25,16 @@ try {
 }
 ---
 
-<BaseLayout pageTitle={isError ? "Channel Not Found" : `${data.title} - YouTube Channel Stats`}>
-  {isError ? (
-    <div class="text-center py-10">
-      <h1 class="text-2xl font-bold text-red-600">Channel not found</h1>
-      <p class="text-gray-600">Please check the URL and try again.</p>
-    </div>
-  ) : (
-    <>
-      <h1 class="text-3xl font-bold my-6">{data.title}</h1>
-      <img src={data.thumbnail} alt="Profile Image" width="150" class="mb-4" />
-      <p><strong>Channel ID:</strong> {data.id}</p>
-      <p><strong>Custom URL:</strong> {data.customUrl}</p>
-      <p><strong>Published:</strong> {new Date(data.publishedAt).toDateString()}</p>
-      <p><strong>Subscribers:</strong> {parseInt(data.subscriberCount).toLocaleString()}</p>
-      <p><strong>Views:</strong> {parseInt(data.viewCount).toLocaleString()}</p>
-      <p><strong>Videos:</strong> {data.videoCount}</p>
-
-      {data.bannerExternalUrl && (
-        <>
-          <h3 class="mt-6 font-semibold">Banner</h3>
-          <img src={data.bannerExternalUrl} alt="Banner" width="400" />
-        </>
-      )}
-
-      <h3 class="mt-6 font-semibold">Description</h3>
-      <pre style="white-space: pre-wrap;">{data.description}</pre>
-
-      {data.topicCategories?.length > 0 && (
-        <>
-          <h3 class="mt-6 font-semibold">Topic Categories</h3>
-          <ul class="list-disc list-inside">
-            {data.topicCategories.map((cat) => (
-              <li><a href={cat} target="_blank" rel="noopener">{cat}</a></li>
-            ))}
-          </ul>
-        </>
-      )}
-
-      <p class="mt-4"><strong>Country:</strong> {data.country || "N/A"}</p>
-    </>
-  )}
+<BaseLayout
+  pageTitle={isError
+    ? "Channel Not Found"
+    : `${data.title} - YouTube Channel Stats`}
+>
+  {isError ? <NotFound /> : 
+  <Hero>
+  <ChannelDetails data={data} 
+  </Hero>
+  
+  
+  />}
 </BaseLayout>

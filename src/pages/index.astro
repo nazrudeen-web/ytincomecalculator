@@ -6,16 +6,17 @@ import Hero from "../components/Hero.astro";
 const pageTitle =
   "YouTube Earnings Calculator | Income Per View & Channel Stats";
 
+// Get search input from URL
 const url = new URL(Astro.request.url);
 const input = url.searchParams.get("channel");
 
-function cleanInput(rawInput) {
-  const trimmed = rawInput.trim();
+// Clean input string (remove extra symbols or extract from full URL)
+function cleanInput(raw) {
+  const trimmed = raw.trim();
   if (trimmed.startsWith("http")) {
     try {
-      const url = new URL(trimmed);
-      const path = url.pathname;
-      return path.replace(/^\/+/, "");
+      const link = new URL(trimmed);
+      return link.pathname.replace(/^\/+/, "");
     } catch {
       return trimmed;
     }
@@ -23,61 +24,64 @@ function cleanInput(rawInput) {
   return trimmed.replace(/^@+/, "");
 }
 
-function detectInputType(input) {
-  return /^UC[a-zA-Z0-9_-]{22}$/.test(input) ? "id" : "handleOrName";
+// Detect if input is a channel ID (UC...) or handle/name
+function detectInputType(value) {
+  return /^UC[a-zA-Z0-9_-]{22}$/.test(value) ? "id" : "handleOrName";
 }
 
-// Real URL to fetch from, always full origin for SSR
-const siteOrigin = "";
-
+// If user entered something, clean and redirect accordingly
 if (input) {
-  const cleanedInput = cleanInput(input);
-  const inputType = detectInputType(cleanedInput);
+  const cleaned = cleanInput(input);
+  const type = detectInputType(cleaned);
 
-  if (inputType === "id") {
-    const apiUrl = `https://yt-backend.ytincome.workers.dev/?channel=${cleanedInput}`;
+  if (type === "id") {
+    const apiUrl = `https://channelincome-backend.ytincome.workers.dev/?channel=${cleaned}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
+
     if (data && (data.handle || data.title)) {
       const baseName = data.handle
         ? data.handle.replace(/^@+/, "")
         : data.title.toLowerCase().replace(/\s+/g, "");
-      const cleanName = `${baseName}-net-worth`;
-      return Astro.redirect(`/${cleanName}`, 301);
+      return Astro.redirect(`/${baseName}-net-worth`, 301);
     } else {
       return Astro.redirect("/not-found");
     }
-  } else {
-    const baseName = cleanedInput.replace(/^@+/, "").replace(/\s+/g, "");
-    const cleanName = `${baseName}-net-worth`;
-    return Astro.redirect(`/${cleanName}`, 301);
   }
+
+  // If it's a handle or name
+  const baseName = cleaned.replace(/\s+/g, "").replace(/^@+/, "");
+  return Astro.redirect(`/${baseName}-net-worth`, 301);
 }
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <Hero>
-    <form method="get"  class="flex items-left space-x-4">
-      <div class="w-1/2 flex flex-col space-y-3.5">
+    <form method="get" class="flex items-start space-x-4 flex-wrap">
+      <div class="w-full md:w-1/2 flex flex-col space-y-4">
         <input
           name="channel"
           type="search"
-          placeholder="Enter YouTube channel name or URL"
+          placeholder="Enter @handle, Channel ID, or YouTube link"
           required
           class="w-full bg-white py-4 px-4 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
         />
-        <div class="flex space-x-2 space-y-2 items-center flex-wrap">
+        <div class="flex flex-wrap items-center gap-2 text-sm">
           <p>For example:</p>
-          <p class="bg-gray-500/20 p-2 rounded-md py-2 px-4">@mrbeast</p>
-          <p class="bg-gray-500/20 p-2 rounded-md py-2 px-4">UCX6OQ3DkcsbYNE6H8uQQuVA</p>
-          <p class="bg-gray-500/20 py-2 px-4 rounded-md">https://youtube.com/@mrbeast</p>
+          <p class="bg-gray-500/20 px-4 py-2 rounded-md">@mrbeast</p>
+          <p class="bg-gray-500/20 px-4 py-2 rounded-md">
+            UCX6OQ3DkcsbYNE6H8uQQuVA
+          </p>
+          <p class="bg-gray-500/20 px-4 py-2 rounded-md">
+            https://youtube.com/@mrbeast
+          </p>
         </div>
       </div>
-      <div>
+      <div class="mt-4 md:mt-0 w-full flex-1">
         <button
-          class="bg-red-600 py-4 px-6 rounded-md font-semibold cursor-pointer"
+          class="bg-red-600 py-4 my-4 px-6 w-full rounded-md font-semibold cursor-pointer text-white md:m-0 md:w-80"
         >
-          See Estimated Income
+          Estimate YouTube Earnings
         </button>
       </div>
     </form>
