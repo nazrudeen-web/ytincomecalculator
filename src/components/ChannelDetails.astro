@@ -8,8 +8,305 @@ function formatNumber(n) {
     maximumFractionDigits: 1,
   }).format(n);
 }
+
+const publishedDate = new Date(data.publishedAt).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+const topics =
+  data.topicCategories?.map((url) => {
+    const name = url.split("/").pop()?.replace(/_/g, " ") || "";
+    return decodeURIComponent(name);
+  }) || [];
+
+const readableTopics =
+  topics.length > 1
+    ? topics.slice(0, -1).join(", ") + " & " + topics.slice(-1)
+    : topics[0] || "Creator";
+
+const countryCode = data.country || "US";
+// 3. Convert country code to full name
+const countryName = new Intl.DisplayNames(["en"], { type: "region" }).of(
+  countryCode
+);
+
+// 4. Convert country code to flag emoji
+function getFlagEmoji(code) {
+  return code
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
+}
+const flag = getFlagEmoji(countryCode);
 ---
 
+<!-- Container -->
+<div class="mx-6">
+  <div
+    class="mx-auto mt-10 max-w-4xl overflow-hidden rounded-xl bg-white shadow-lg"
+  >
+    <!-- Banner -->
+    <div
+      class="relative h-36 bg-cover bg-center"
+      style={`background-image: ${
+        data.bannerExternalUrl
+          ? `url('${data.bannerExternalUrl}')`
+          : "linear-gradient(to right, #ff4d4d, #cc0000)"
+      };`}
+    >
+      <!-- Profile Image (Overlapping) -->
+      <img
+        src={data.thumbnail}
+        alt="Profile"
+        class="absolute -bottom-12 left-6 h-24 w-24 rounded-full border-4 border-white shadow-lg"
+      />
+    </div>
+
+    <!-- Header Info -->
+    <div class="px-6 pt-16 pb-6">
+      <div class="flex flex-wrap items-start justify-between">
+        <div>
+          <h1 class="text-2xl font-bold">{data.title}</h1>
+          <p class="text-sm text-gray-500">
+            YouTube Creator · {readableTopics}
+          </p>
+          <div class="mt-1 text-sm text-gray-400">
+            Published: {publishedDate} · {flag}
+            {countryName}
+          </div>
+        </div>
+
+        <!-- Action Section -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mt-4">
+          <!-- Visit Channel Button -->
+          <a
+            href={`https://www.youtube.com/${data.customUrl}`}
+            target="_blank"
+            rel="noopener"
+            class="flex items-center gap-2 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
+          >
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 3v2h8.59L3 20.59 4.41 22 20 6.41V15h2V3z"></path>
+            </svg>
+            Visit Channel
+          </a>
+
+          <!-- Share Icons Group -->
+          <div
+            class="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm"
+          >
+            <span class="font-medium">Share:</span>
+
+            <!-- Twitter -->
+            <a
+              href="https://twitter.com/intent/tweet?url=https://www.youtube.com/@MrBeast"
+              target="_blank"
+              class="text-blue-500 hover:text-blue-600"
+              title="Share on Twitter"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.4.36a9.14 9.14 0 0 1-2.88 1.1A4.52 4.52 0 0 0 11 4.77a12.84 12.84 0 0 1-9.3-4.7A4.52 4.52 0 0 0 3.17 9.86a4.5 4.5 0 0 1-2.05-.57v.06a4.52 4.52 0 0 0 3.6 4.42 4.52 4.52 0 0 1-2.04.08 4.52 4.52 0 0 0 4.21 3.13A9.05 9.05 0 0 1 1 19.58a12.76 12.76 0 0 0 6.92 2"
+                ></path>
+              </svg>
+            </a>
+
+            <!-- Facebook -->
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=https://www.youtube.com/@MrBeast"
+              target="_blank"
+              class="text-blue-700 hover:text-blue-800"
+              title="Share on Facebook"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M22 12a10 10 0 1 0-11.5 9.95v-7.05h-2v-2.9h2v-2.2c0-2 1.2-3.1 3-3.1.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.2v1.8h2.2l-.3 2.9h-1.9v7.05A10.01 10.01 0 0 0 22 12"
+                ></path>
+              </svg>
+            </a>
+
+            <!-- WhatsApp -->
+            <a
+              href="https://wa.me/?text=https://www.youtube.com/@MrBeast"
+              target="_blank"
+              class="text-green-600 hover:text-green-700"
+              title="Share on WhatsApp"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M20.5 3.5A11.9 11.9 0 0 0 12 0a11.9 11.9 0 0 0-10.5 17.8L0 24l6.4-1.7A11.9 11.9 0 0 0 12 24a11.9 11.9 0 0 0 8.5-20.5zM12 22a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.8 1 1-3.7-.3-.4a9.9 9.9 0 1 1 8.5 4.7zm5.5-7.6c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1l-.5.6c-.2.2-.4.3-.6.2-.3-.1-1.2-.5-2.2-1.4-.8-.7-1.4-1.7-1.5-2-.1-.2 0-.4.2-.6l.5-.6c.1-.2.1-.4 0-.7s-.9-2.2-1.2-3c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.8-.7 2-1.3s.3-1.2.2-1.3c-.1-.1-.2-.1-.3-.2z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats
+    <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-600">
+      <span><strong>407M</strong> Subscribers</span>
+      <span><strong>87.3B</strong> Views</span>
+      <span><strong>879</strong> Videos</span>
+    </div> -->
+  </div>
+</div>
+<!-- Stats Box -->
+<div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
+  <h2 class="text-md mb-4 font-semibold text-gray-800">Channel Statistics</h2>
+  <div
+    class="grid grid-cols-1 gap-4 text-center text-sm text-gray-700 sm:grid-cols-3"
+  >
+    <!-- Subscribers -->
+    <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
+      <div class="text-xl font-bold text-blue-600">407M</div>
+      <div class="mt-1 text-gray-500">Subscribers</div>
+    </div>
+
+    <!-- Views -->
+    <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
+      <div class="text-xl font-bold text-green-600">87.3B</div>
+      <div class="mt-1 text-gray-500">Total Views</div>
+    </div>
+
+    <!-- Videos -->
+    <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
+      <div class="text-xl font-bold text-purple-600">879</div>
+      <div class="mt-1 text-gray-500">Videos Uploaded</div>
+    </div>
+  </div>
+</div>
+
+<!-- About the Channel -->
+<div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
+  <h2 class="text-xl font-semibold text-gray-800">Who is MrBeast?</h2>
+  <p class="mt-3 text-sm leading-relaxed text-gray-700">
+    MrBeast (real name <strong>Jimmy Donaldson</strong>) is one of the most
+    influential content creators on YouTube. Known for his philanthropy,
+    high-stakes challenges, and viral videos, he has redefined what it means to
+    be a YouTuber. MrBeast began his channel in 2012 and steadily grew his
+    audience with creative stunts, charitable giveaways, and engaging content
+    that resonates with a global audience.
+  </p>
+  <p class="mt-3 text-sm leading-relaxed text-gray-700">
+    Today, MrBeast has become a household name with over <strong
+      >407 million subscribers</strong
+    > across his multiple channels. He’s the founder of several businesses including
+    <strong>Feastables</strong>, <strong>Beast Burger</strong>, and <strong
+      >Viewstats</strong
+    >. His mission is not just to entertain, but to make a positive impact —
+    from planting 20 million trees to donating millions to families in need.
+  </p>
+</div>
+
+<!-- Estimated Earnings -->
+<div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
+  <h2 class="text-xl font-semibold text-gray-800">
+    How Much Does MrBeast Make on YouTube?
+  </h2>
+
+  <p class="mt-3 text-sm leading-relaxed text-gray-700">
+    Estimating YouTube income can be tricky, but we use common factors like
+    average <strong>CPM (Cost Per 1,000 views)</strong>, video frequency, and
+    view count to calculate earnings.
+  </p>
+
+  <!-- Earnings Grid -->
+  <div
+    class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm text-gray-700"
+  >
+    <!-- Monthly -->
+    <div class="rounded-lg bg-green-50 p-4 shadow-sm">
+      <div class="text-lg font-semibold text-gray-800">Monthly Earnings</div>
+      <div class="mt-1 text-xl font-bold text-green-600">$450K – $700K</div>
+    </div>
+
+    <!-- Yearly -->
+    <div class="rounded-lg bg-blue-50 p-4 shadow-sm">
+      <div class="text-lg font-semibold text-gray-800">Yearly Earnings</div>
+      <div class="mt-1 text-xl font-bold text-blue-600">$5.4M – $8.4M</div>
+    </div>
+
+    <!-- Daily -->
+    <div class="rounded-lg bg-yellow-50 p-4 shadow-sm">
+      <div class="text-lg font-semibold text-gray-800">Daily Earnings</div>
+      <div class="mt-1 text-xl font-bold text-yellow-600">$15K – $23K</div>
+    </div>
+  </div>
+
+  <p class="mt-6 text-sm text-gray-500">
+    Note: These are approximate values based on YouTube ad revenue. MrBeast
+    likely earns more from brand deals, merchandise, Feastables, and other
+    business ventures.
+  </p>
+</div>
+
+<!-- FAQ Section -->
+<div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
+  <h2 class="mb-4 text-xl font-semibold text-gray-800">
+    Frequently Asked Questions about MrBeast
+  </h2>
+  <div class="space-y-6 text-sm leading-relaxed text-gray-700">
+    <div>
+      <h3 class="font-semibold text-gray-900">
+        How much money does MrBeast make monthly?
+      </h3>
+      <p>
+        MrBeast earns an estimated <strong>$450K to $700K per month</strong> from
+        YouTube ad revenue alone. This estimate is based on his average views and
+        industry CPMs. His total monthly income including sponsorships and product
+        sales could be significantly higher.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-900">
+        What is MrBeast’s net worth in 2025?
+      </h3>
+      <p>
+        While exact figures vary, estimates place MrBeast’s net worth between <strong
+          >$100 million to $120 million</strong
+        > as of 2025. His income comes from YouTube, business ventures, merchandise,
+        and app/game revenue.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-900">How did MrBeast get famous?</h3>
+      <p>
+        MrBeast first went viral in 2017 with his video where he counted to
+        100,000 in one sitting. Since then, his unique style of generous and
+        often extreme challenge videos has propelled him to global fame.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-900">
+        What are MrBeast’s top accomplishments?
+      </h3>
+      <ul class="mt-2 list-inside list-disc">
+        <li>Planted 20 million trees through TeamTrees</li>
+        <li>Removed 30 million pounds of ocean trash (TeamSeas)</li>
+        <li>Gave away millions in cash and gifts</li>
+        <li>Helped thousands with medical treatments</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-900">
+        Is MrBeast the most subscribed YouTube channel?
+      </h3>
+      <p>
+        As of now, MrBeast has surpassed T-Series to become the most subscribed
+        individual YouTuber, with over 407 million subscribers across all
+        channels combined.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 
 <section class="bg-blue-50 text-black px-4">
   <div class="mx-auto py-16 max-w-5xl">
     <div>
@@ -65,4 +362,4 @@ function formatNumber(n) {
       </p>
     </div>
   </div>
-</section>
+</section> -->

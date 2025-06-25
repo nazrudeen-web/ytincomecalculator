@@ -2,7 +2,7 @@
 import BaseLayout from "../layout/BaseLayout.astro";
 import NotFound from "./not-found.astro";
 import ChannelDetails from "../components/ChannelDetails.astro";
-import Hero from '../components/Hero.astro'
+import Header from "../components/Header.astro";
 const { params } = Astro;
 
 // 1. Remove "-net-worth" from the end to get clean name
@@ -30,11 +30,13 @@ try {
     ? "Channel Not Found"
     : `${data.title} - YouTube Channel Stats`}
 >
-  {isError ? <NotFound /> : 
-  <Hero>
-  <ChannelDetails data={data} 
-  </Hero>
-  
-  
-  />}
+  {
+    isError ? (
+        <Header />
+        <NotFound />
+    ) : (
+        <Header />
+        <ChannelDetails data={data} />
+    )
+  }
 </BaseLayout>

@@ -1,16 +1,18 @@
 ---
 import "../styles/global.css";
 import BaseLayout from "../layout/BaseLayout.astro";
+import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 
+// Set page title for SEO
 const pageTitle =
   "YouTube Earnings Calculator | Income Per View & Channel Stats";
 
-// Get search input from URL
+// Get "channel" input from URL (example: ?channel=MrBeast or ?channel=@mrbeast)
 const url = new URL(Astro.request.url);
 const input = url.searchParams.get("channel");
 
-// Clean input string (remove extra symbols or extract from full URL)
+// Clean user input: remove @ or get path from full URL
 function cleanInput(raw) {
   const trimmed = raw.trim();
   if (trimmed.startsWith("http")) {
@@ -24,17 +26,18 @@ function cleanInput(raw) {
   return trimmed.replace(/^@+/, "");
 }
 
-// Detect if input is a channel ID (UC...) or handle/name
+// Check if input is YouTube channel ID (starts with UC...) or handle/name
 function detectInputType(value) {
   return /^UC[a-zA-Z0-9_-]{22}$/.test(value) ? "id" : "handleOrName";
 }
 
-// If user entered something, clean and redirect accordingly
+// If input exists, process it and redirect to proper page
 if (input) {
   const cleaned = cleanInput(input);
   const type = detectInputType(cleaned);
 
   if (type === "id") {
+    // If input is a channel ID, fetch info from backend
     const apiUrl = `https://channelincome-backend.ytincome.workers.dev/?channel=${cleaned}`;
     const res = await fetch(apiUrl);
     const data = await res.json();
@@ -45,19 +48,21 @@ if (input) {
         : data.title.toLowerCase().replace(/\s+/g, "");
       return Astro.redirect(`/${baseName}-net-worth`, 301);
     } else {
+      // No data found, go to not-found page
       return Astro.redirect("/not-found");
     }
   }
 
-  // If it's a handle or name
+  // If input is a handle or name, clean it and redirect
   const baseName = cleaned.replace(/\s+/g, "").replace(/^@+/, "");
   return Astro.redirect(`/${baseName}-net-worth`, 301);
 }
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+  <Header />
   <Hero>
-    <form method="get" class="flex items-start space-x-4 flex-wrap">
+    <!-- <form method="get" class="flex items-start space-x-4 flex-wrap">
       <div class="w-full md:w-1/2 flex flex-col space-y-4">
         <input
           name="channel"
@@ -84,6 +89,6 @@ if (input) {
           Estimate YouTube Earnings
         </button>
       </div>
-    </form>
+    </form> -->
   </Hero>
 </BaseLayout>

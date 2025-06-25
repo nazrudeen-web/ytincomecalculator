@@ -1,18 +1,73 @@
----
+<section
+  class="border-b border-gray-300 bg-gradient-to-b from-red-50 via-white to-white px-4 py-6 text-gray-900 md:py-16"
+>
+  <div
+    class="mx-auto max-w-4xl rounded-xl bg-white px-4 pt-10 text-center shadow md:pt-16 md:px-10"
+  >
+    <h2 class="text-3xl leading-tight font-extrabold text-gray-900">
+      Discover How Much Money YouTubers Really Make
+    </h2>
+    <p class="mt-3 text-base text-gray-600 max-w-4xl mx-auto">
+      Use our free YouTube earnings calculator to estimate how much any channel
+      makes from ads. Just enter a name, @handle, or full YouTube link — fast,
+      easy, and accurate.
+    </p>
 
----
+    <!-- Search Form -->
+    <form method="get" class="mt-8">
+      <div class="flex flex-col items-stretch gap-3 md:flex-row">
+        <!-- Input with icon on the left -->
+        <div class="relative flex-1">
+          <span
+            class="absolute inset-y-0 left-3 flex items-center text-gray-400"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              ></path>
+            </svg>
+          </span>
+          <input
+            type="text"
+            name="channel"
+            placeholder="e.g. @mrbeast or full YouTube URL"
+            class="w-full rounded-md border border-gray-400 py-3 pr-4 pl-10 text-base text-gray-800 placeholder-gray-400 shadow-md focus:border-red-500 focus:ring-1 focus:ring-red-500"
+          />
+        </div>
 
-<section class="bg-blue-950 text-white px-4">
-  <div class="mx-auto py-16 max-w-5xl">
-    <div>
-      <h1 class="text-3xl font-bold mb-4 tracking-tight md:text-5xl">
-        How Much Money Do YouTubers Make? <br /> Try This YouTube Earnings Calculator!
-      </h1>
-      <p class="text-base md:text-lg mb-4">
-        Find out how much YouTubers earn per view or per month. <br /> Just enter
-        a channel name, handle, or link. It’s free and easy!
-      </p>
+        <!-- CTA Button -->
+        <button
+          type="submit"
+          class="w-full rounded-md bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 sm:w-auto"
+          >Estimate YouTube Income</button
+        >
+      </div>
+    </form>
+
+    <!-- Example tags -->
+    <div
+      class="mt-10 flex flex-wrap justify-center items-center gap-2 text-sm text-gray-600 font-medium"
+    >
+      <span class="rounded-full bg-gray-100 px-4 py-2">@mrbeast</span>
+      <span class="rounded-full bg-gray-100 px-4 py-2"
+        >UCX6OQ3DkcsbYNE6H8uQQuVA</span
+      >
+      <span class="rounded-full bg-gray-100 px-4 py-2"
+        >https://youtube.com/@mrbeast</span
+      >
     </div>
-    <slot />
+    <p class="mt-10 pb-14 text-sm text-gray-500">
+      🛡️ <strong>Powered by the official YouTube API</strong> — real-time, accurate
+      results from YouTube directly.
+    </p>
   </div>
 </section>
