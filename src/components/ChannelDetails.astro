@@ -39,6 +39,51 @@ function getFlagEmoji(code) {
     .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt()));
 }
 const flag = getFlagEmoji(countryCode);
+
+// 1. Estimate channel age
+const publishedDateObj = new Date(data.publishedAt);
+const today = new Date();
+const channelAgeInDays = Math.max(
+  1,
+  Math.round((today - publishedDateObj) / (1000 * 60 * 60 * 24))
+);
+
+// 2. Estimated daily views
+const avgDailyViews = Math.round(data.viewCount / channelAgeInDays);
+
+// 3. Set CPM based on country (basic logic; you can expand)
+let lowCPM = 1.2;
+let highCPM = 4;
+
+const highCPMCountries = ["US", "CA", "GB", "AU", "DE", "FR", "AE"];
+if (highCPMCountries.includes(data.country)) {
+  lowCPM = 3.5;
+  highCPM = 7;
+}
+
+// 4. Calculate earnings
+function estimateEarnings(views, low, high) {
+  return {
+    low: ((views * low) / 1000).toFixed(0),
+    high: ((views * high) / 1000).toFixed(0),
+  };
+}
+
+const dailyEarnings = estimateEarnings(avgDailyViews, lowCPM, highCPM);
+const monthlyEarnings = estimateEarnings(avgDailyViews * 30, lowCPM, highCPM);
+const yearlyEarnings = estimateEarnings(avgDailyViews * 365, lowCPM, highCPM);
+
+// 5. Helper to format dollars
+function formatUSD(amount) {
+  return (
+    "$" +
+    new Intl.NumberFormat("en", {
+      notation: "compact",
+      compactDisplay: "short",
+      maximumFractionDigits: 1,
+    }).format(amount)
+  );
+}
 ---
 
 <!-- Container -->
@@ -46,25 +91,39 @@ const flag = getFlagEmoji(countryCode);
   <div
     class="mx-auto mt-10 max-w-4xl overflow-hidden rounded-xl bg-white shadow-lg"
   >
-    <!-- Banner -->
+    <!-- Banner with fallback + profile image properly aligned -->
     <div
-      class="relative h-36 bg-cover bg-center"
-      style={`background-image: ${
-        data.bannerExternalUrl
-          ? `url('${data.bannerExternalUrl}')`
-          : "linear-gradient(to right, #ff4d4d, #cc0000)"
-      };`}
+      class="relative h-36 w-full rounded-t-xl bg-gradient-to-r from-red-600 to-red-400"
     >
-      <!-- Profile Image (Overlapping) -->
-      <img
-        src={data.thumbnail}
-        alt="Profile"
-        class="absolute -bottom-12 left-6 h-24 w-24 rounded-full border-4 border-white shadow-lg"
-      />
+      <!-- Banner image (with fallback if no URL) -->
+      {
+        data.bannerExternalUrl && (
+          <img
+            src={data.bannerExternalUrl}
+            alt="Banner"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => (e.currentTarget.style.display = "none")}
+          />
+        )
+      }
+
+      <!-- Profile image (correct position + spacing) -->
+      <div class="absolute -bottom-16 left-6 z-10">
+        <img
+          src={data.thumbnail}
+          alt="Profile"
+          class="h-32 w-32 rounded-full border-4 border-white shadow-md object-cover aspect-square bg-white"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => (e.currentTarget.style.display = "none")}
+        />
+      </div>
     </div>
 
     <!-- Header Info -->
-    <div class="px-6 pt-16 pb-6">
+    <div class="px-6 pt-20 pb-6">
       <div class="flex flex-wrap items-start justify-between">
         <div>
           <h1 class="text-2xl font-bold">{data.title}</h1>
@@ -143,15 +202,9 @@ const flag = getFlagEmoji(countryCode);
         </div>
       </div>
     </div>
-
-    <!-- Stats
-    <div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-600">
-      <span><strong>407M</strong> Subscribers</span>
-      <span><strong>87.3B</strong> Views</span>
-      <span><strong>879</strong> Videos</span>
-    </div> -->
   </div>
 </div>
+
 <!-- Stats Box -->
 <div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
   <h2 class="text-md mb-4 font-semibold text-gray-800">Channel Statistics</h2>
@@ -160,19 +213,23 @@ const flag = getFlagEmoji(countryCode);
   >
     <!-- Subscribers -->
     <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
-      <div class="text-xl font-bold text-blue-600">407M</div>
+      <div class="text-xl font-bold text-blue-600">
+        {formatNumber(data.subscriberCount)}
+      </div>
       <div class="mt-1 text-gray-500">Subscribers</div>
     </div>
 
     <!-- Views -->
     <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
-      <div class="text-xl font-bold text-green-600">87.3B</div>
+      <div class="text-xl font-bold text-green-600">
+        {formatNumber(data.viewCount)}
+      </div>
       <div class="mt-1 text-gray-500">Total Views</div>
     </div>
 
     <!-- Videos -->
     <div class="rounded-lg bg-gray-50 p-4 shadow-sm">
-      <div class="text-xl font-bold text-purple-600">879</div>
+      <div class="text-xl font-bold text-purple-600">{data.videoCount}</div>
       <div class="mt-1 text-gray-500">Videos Uploaded</div>
     </div>
   </div>
@@ -180,186 +237,137 @@ const flag = getFlagEmoji(countryCode);
 
 <!-- About the Channel -->
 <div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
-  <h2 class="text-xl font-semibold text-gray-800">Who is MrBeast?</h2>
-  <p class="mt-3 text-sm leading-relaxed text-gray-700">
-    MrBeast (real name <strong>Jimmy Donaldson</strong>) is one of the most
-    influential content creators on YouTube. Known for his philanthropy,
-    high-stakes challenges, and viral videos, he has redefined what it means to
-    be a YouTuber. MrBeast began his channel in 2012 and steadily grew his
-    audience with creative stunts, charitable giveaways, and engaging content
-    that resonates with a global audience.
-  </p>
-  <p class="mt-3 text-sm leading-relaxed text-gray-700">
-    Today, MrBeast has become a household name with over <strong
-      >407 million subscribers</strong
-    > across his multiple channels. He’s the founder of several businesses including
-    <strong>Feastables</strong>, <strong>Beast Burger</strong>, and <strong
-      >Viewstats</strong
-    >. His mission is not just to entertain, but to make a positive impact —
-    from planting 20 million trees to donating millions to families in need.
-  </p>
+  <h2 class="text-xl font-semibold text-gray-800">About {data.title}</h2>
+
+  {
+    data.description && data.description.length > 100 ? (
+      <p class="mt-3 text-sm whitespace-pre-line leading-relaxed text-gray-700">
+        {data.description}
+      </p>
+    ) : (
+      <>
+        <p class="mt-3 text-sm leading-relaxed text-gray-700">
+          <strong>{data.title}</strong> is a YouTube creator known for content
+          in <strong>{readableTopics}</strong>. This channel started on{" "}
+          <strong>{publishedDate}</strong> and has built an audience with{" "}
+          {formatNumber(data.subscriberCount)} subscribers,{" "}
+          {formatNumber(data.viewCount)} total views, and {data.videoCount}{" "}
+          uploaded videos.
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-gray-700">
+          Based in <strong>{countryName}</strong>, {data.title} creates content
+          that resonates with viewers around the world. Whether it's tutorials,
+          entertainment, vlogs, or reviews, this channel has earned a trusted
+          following over time.
+        </p>
+      </>
+    )
+  }
 </div>
 
 <!-- Estimated Earnings -->
 <div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
   <h2 class="text-xl font-semibold text-gray-800">
-    How Much Does MrBeast Make on YouTube?
+    How Much Does {data.title} Make on YouTube?
   </h2>
 
   <p class="mt-3 text-sm leading-relaxed text-gray-700">
-    Estimating YouTube income can be tricky, but we use common factors like
-    average <strong>CPM (Cost Per 1,000 views)</strong>, video frequency, and
-    view count to calculate earnings.
+    Estimated YouTube income is calculated using average{" "}
+    <strong>CPM (Cost Per 1,000 views)</strong>. This estimate may not include
+    sponsorships, merchandise, or business revenue.
   </p>
-
   <!-- Earnings Grid -->
   <div
     class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm text-gray-700"
   >
+    <!-- Daily -->
+    <div class="rounded-lg bg-yellow-50 p-4 shadow-sm">
+      <div class="text-lg font-semibold text-gray-800">Daily Earnings</div>
+      <div class="mt-1 text-xl font-bold text-yellow-600">
+        {formatUSD(dailyEarnings.low)} – {formatUSD(dailyEarnings.high)}
+      </div>
+    </div>
+
     <!-- Monthly -->
     <div class="rounded-lg bg-green-50 p-4 shadow-sm">
       <div class="text-lg font-semibold text-gray-800">Monthly Earnings</div>
-      <div class="mt-1 text-xl font-bold text-green-600">$450K – $700K</div>
+      <div class="mt-1 text-xl font-bold text-green-600">
+        {formatUSD(monthlyEarnings.low)} – {formatUSD(monthlyEarnings.high)}
+      </div>
     </div>
 
     <!-- Yearly -->
     <div class="rounded-lg bg-blue-50 p-4 shadow-sm">
       <div class="text-lg font-semibold text-gray-800">Yearly Earnings</div>
-      <div class="mt-1 text-xl font-bold text-blue-600">$5.4M – $8.4M</div>
-    </div>
-
-    <!-- Daily -->
-    <div class="rounded-lg bg-yellow-50 p-4 shadow-sm">
-      <div class="text-lg font-semibold text-gray-800">Daily Earnings</div>
-      <div class="mt-1 text-xl font-bold text-yellow-600">$15K – $23K</div>
+      <div class="mt-1 text-xl font-bold text-blue-600">
+        {formatUSD(yearlyEarnings.low)} – {formatUSD(yearlyEarnings.high)}
+      </div>
     </div>
   </div>
 
   <p class="mt-6 text-sm text-gray-500">
-    Note: These are approximate values based on YouTube ad revenue. MrBeast
-    likely earns more from brand deals, merchandise, Feastables, and other
-    business ventures.
+    Note: This is a rough estimate based on YouTube ad revenue only. Actual
+    earnings depend on CPM, watch time, location, and monetization method.
   </p>
 </div>
 
 <!-- FAQ Section -->
 <div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
   <h2 class="mb-4 text-xl font-semibold text-gray-800">
-    Frequently Asked Questions about MrBeast
+    Frequently Asked Questions about {data.title}
   </h2>
   <div class="space-y-6 text-sm leading-relaxed text-gray-700">
     <div>
       <h3 class="font-semibold text-gray-900">
-        How much money does MrBeast make monthly?
+        How much money does {data.title} make monthly?
       </h3>
       <p>
-        MrBeast earns an estimated <strong>$450K to $700K per month</strong> from
-        YouTube ad revenue alone. This estimate is based on his average views and
-        industry CPMs. His total monthly income including sponsorships and product
-        sales could be significantly higher.
+        This depends on ad revenue, viewer location, CPM rate, and sponsors.
+        Based on average views, estimated monthly income is <strong
+          >{formatUSD(monthlyEarnings.low)} – {
+            formatUSD(monthlyEarnings.high)
+          }</strong
+        >.
       </p>
     </div>
 
     <div>
       <h3 class="font-semibold text-gray-900">
-        What is MrBeast’s net worth in 2025?
+        What is {data.title}’s niche or category?
       </h3>
       <p>
-        While exact figures vary, estimates place MrBeast’s net worth between <strong
-          >$100 million to $120 million</strong
-        > as of 2025. His income comes from YouTube, business ventures, merchandise,
-        and app/game revenue.
-      </p>
-    </div>
-
-    <div>
-      <h3 class="font-semibold text-gray-900">How did MrBeast get famous?</h3>
-      <p>
-        MrBeast first went viral in 2017 with his video where he counted to
-        100,000 in one sitting. Since then, his unique style of generous and
-        often extreme challenge videos has propelled him to global fame.
+        This channel creates content related to{" "}
+        <strong>{readableTopics}</strong>. Content style and niche may change
+        over time.
       </p>
     </div>
 
     <div>
       <h3 class="font-semibold text-gray-900">
-        What are MrBeast’s top accomplishments?
+        Where is {data.title} from?
       </h3>
-      <ul class="mt-2 list-inside list-disc">
-        <li>Planted 20 million trees through TeamTrees</li>
-        <li>Removed 30 million pounds of ocean trash (TeamSeas)</li>
-        <li>Gave away millions in cash and gifts</li>
-        <li>Helped thousands with medical treatments</li>
-      </ul>
+      <p>
+        The channel is registered in <strong>{countryName}</strong>{" "}
+        ({flag}) and reaches viewers globally.
+      </p>
     </div>
 
     <div>
       <h3 class="font-semibold text-gray-900">
-        Is MrBeast the most subscribed YouTube channel?
+        When did {data.title} start on YouTube?
       </h3>
       <p>
-        As of now, MrBeast has surpassed T-Series to become the most subscribed
-        individual YouTuber, with over 407 million subscribers across all
-        channels combined.
+        {data.title} started the channel on <strong>{publishedDate}</strong>.
       </p>
     </div>
   </div>
 </div>
 
-<!-- 
-<section class="bg-blue-50 text-black px-4">
-  <div class="mx-auto py-16 max-w-5xl">
-    <div>
-      <h1 class="text-3xl font-bold my-6">{data.title}</h1>
-
-      <img src={data.thumbnail} alt="Profile Image" width="150" class="mb-4" />
-
-      <p><strong>Channel ID:</strong> {data.id}</p>
-      <p><strong>Custom URL:</strong> {data.customUrl}</p>
-      <p>
-        <strong>Published:</strong>
-        {new Date(data.publishedAt).toDateString()}
-      </p>
-      <p>
-        <strong>Subscribers:</strong>
-        {formatNumber(data.subscriberCount)}
-      </p>
-      <p><strong>Views:</strong> {formatNumber(data.viewCount)}</p>
-      <p><strong>Videos:</strong> {data.videoCount}</p>
-
-      {
-        data.bannerExternalUrl && (
-          <>
-            <h3 class="mt-6 font-semibold">Banner</h3>
-            <img src={data.bannerExternalUrl} alt="Banner" width="400" />
-          </>
-        )
-      }
-
-      <h3 class="mt-6 font-semibold">Description</h3>
-      <pre style="white-space: pre-wrap;">{data.description}</pre>
-
-      {
-        data.topicCategories?.length > 0 && (
-          <>
-            <h3 class="mt-6 font-semibold">Topic Categories</h3>
-            <ul class="list-disc list-inside">
-              {data.topicCategories.map((cat) => (
-                <li>
-                  <a href={cat} target="_blank" rel="noopener">
-                    {cat}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </>
-        )
-      }
-
-      <p class="mt-4">
-        <strong>Country:</strong>
-        {data.country || "N/A"}
-      </p>
-    </div>
-  </div>
-</section> -->
+<div class="mx-auto mt-6 max-w-4xl rounded-xl bg-white p-6 shadow">
+  <h2 class="text-xl font-semibold text-gray-800">Explore More Channels</h2>
+  <p class="mt-3 text-sm leading-relaxed text-gray-700">
+    Use our YouTube earnings tool to check estimated revenue of any channel —
+    influencers, educators, vloggers, and more. Just search using a YouTube
+    handle or channel ID to get started.
+  </p>
+</div>

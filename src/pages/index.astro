@@ -57,38 +57,94 @@ if (input) {
   const baseName = cleaned.replace(/\s+/g, "").replace(/^@+/, "");
   return Astro.redirect(`/${baseName}-net-worth`, 301);
 }
+
+const topChannels = [
+  {
+    name: "T-Series",
+    slug: "tseries-net-worth",
+    image:
+      "https://yt3.ggpht.com/VunTf0NzCeboiPjbesBdnQuxaF3Lja7UGRbBGQAWRJgMSTj9TTLO3pS1X9qPOJGCNnmPrXeY=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "MrBeast",
+    slug: "mrbeast-net-worth",
+    image:
+      "https://yt3.ggpht.com/nxYrc_1_2f77DoBadyxMTmv7ZpRZapHR5jbuYe7PlPd5cIRJxtNNEYyOC0ZsxaDyJJzXrnJiuDE=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "Cocomelon",
+    slug: "cocomelon-net-worth",
+    image:
+      "https://yt3.ggpht.com/ytc/AIdro_lPfVIUJedPeT8Sa0sR1OoH3ehJFJC16RcyvFgvduFPp_k=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "SET India",
+    slug: "setindia-net-worth",
+    image:
+      "https://yt3.ggpht.com/vmmZsYmryt238vqck4KAYf69gOSu22ZfqVE3rwT1tYz4hr68xl7crIUK7kghQgR6RiB9IlQ5mQ=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "Kids Diana Show",
+    slug: "kidsdianashow-net-worth",
+    image:
+      "https://yt3.ggpht.com/ytc/AIdro_nuak4aeQJInwMJxsb8MNlnuOKktlhlLQQl_7tnWoSF5no=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "Like Nastya",
+    slug: "likenastyaofficial-net-worth",
+    image:
+      "https://yt3.ggpht.com/ytc/AIdro_mVv_9v6t_6ni8YIQZWxmabSsNCVTyGQ48CHQ8-2W-OQtM=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "PewDiePie",
+    slug: "pewdiepie-net-worth",
+    image:
+      "https://yt3.ggpht.com/vik8mAiwHQbXiFyKfZ3__p55_VBdGvwxPpuPJBBwdbF0PjJxikXhrP-C3nLQAMAxGNd_-xQCIg=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "Vlad and Niki",
+    slug: "vladandniki-net-worth",
+    image:
+      "https://yt3.ggpht.com/il7dQx5fz3qs2ykOvWQVhtjT-_grY_oPmXlah13q694r_5zUS_7M33pBuUC34Cq0VearBaT1NOE=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "Zee Music Company",
+    slug: "zeemusiccompany-net-worth",
+    image:
+      "https://yt3.ggpht.com/zGnrFUqmF6Xp2tM8ecG9sVXyHjJUrqa7GnNV_kATAdAvSwfgIg7693GURHASA7C6OPK3YmGZ=s800-c-k-c0x00ffffff-no-rj",
+  },
+  {
+    name: "BLACKPINK",
+    slug: "blackpink-net-worth",
+    image:
+      "https://yt3.ggpht.com/U3VrCkKjzTpQ3VYv4SCPjNfDHeJV-swGNnhLYhr0nV4lZz_GVUNzK4EB-HFRfKv9S5VNh14uAg=s800-c-k-c0x00ffffff-no-rj",
+  },
+];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <Header />
-  <Hero>
-    <!-- <form method="get" class="flex items-start space-x-4 flex-wrap">
-      <div class="w-full md:w-1/2 flex flex-col space-y-4">
-        <input
-          name="channel"
-          type="search"
-          placeholder="Enter @handle, Channel ID, or YouTube link"
-          required
-          class="w-full bg-white py-4 px-4 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-        />
-        <div class="flex flex-wrap items-center gap-2 text-sm">
-          <p>For example:</p>
-          <p class="bg-gray-500/20 px-4 py-2 rounded-md">@mrbeast</p>
-          <p class="bg-gray-500/20 px-4 py-2 rounded-md">
-            UCX6OQ3DkcsbYNE6H8uQQuVA
-          </p>
-          <p class="bg-gray-500/20 px-4 py-2 rounded-md">
-            https://youtube.com/@mrbeast
-          </p>
-        </div>
-      </div>
-      <div class="mt-4 md:mt-0 w-full flex-1">
-        <button
-          class="bg-red-600 py-4 my-4 px-6 w-full rounded-md font-semibold cursor-pointer text-white md:m-0 md:w-80"
-        >
-          Estimate YouTube Earnings
-        </button>
-      </div>
-    </form> -->
-  </Hero>
+  <Hero />
+  <div class="max-w-4xl mx-auto my-10 px-4">
+    <h2 class="text-2xl font-semibold mb-6">Top YouTube Channels</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
+      {
+        topChannels.map((channel) => (
+          <a
+            href={`/${channel.slug}`}
+            class="flex flex-col items-center text-center hover:underline"
+            key={channel.slug}
+          >
+            <img
+              src={channel.image}
+              alt={`${channel.name} Profile`}
+              class="w-20 h-20 rounded-full object-cover shadow-md"
+              loading="lazy"
+            />
+            <span class="mt-2 font-medium text-gray-800">{channel.name}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </BaseLayout>
