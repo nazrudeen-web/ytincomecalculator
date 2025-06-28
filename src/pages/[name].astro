@@ -3,6 +3,7 @@ import BaseLayout from "../layout/BaseLayout.astro";
 import NotFound from "./not-found.astro";
 import ChannelDetails from "../components/ChannelDetails.astro";
 import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 const { params } = Astro;
 
 // 1. Remove "-net-worth" from the end to get clean name
@@ -23,20 +24,28 @@ try {
   console.error("Failed to fetch channel data:", err);
   isError = true;
 }
+
+const pageTitle = `${data.title} YouTube Channel Income, Revenue & Earnings`;
+const pageDescription = `Explore how much ${data.title} earns from YouTube ads. Up-to-date stats including views, subscribers, and revenue.`;
+const pageUrl = `https://ytincomecalculator.pages.dev/${params.name}`;
+const pageImage = data.thumbnail || "https://yourdomain.com/images/default.jpg";
 ---
 
 <BaseLayout
-  pageTitle={isError
-    ? "Channel Not Found"
-    : `${data.title} - YouTube Channel Stats`}
+   pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  pageUrl={pageUrl}
+  pageImage={pageImage}
 >
   {
     isError ? (
         <Header />
         <NotFound />
+        <Footer/>
     ) : (
         <Header />
         <ChannelDetails data={data} />
+        <Footer/>
     )
   }
 </BaseLayout>

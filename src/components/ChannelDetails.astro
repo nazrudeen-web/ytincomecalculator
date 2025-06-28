@@ -1,5 +1,6 @@
 ---
 const { data } = Astro.props;
+import Share from "./Share.astro";
 
 function formatNumber(n) {
   return new Intl.NumberFormat("en", {
@@ -152,53 +153,7 @@ function formatUSD(amount) {
           </a>
 
           <!-- Share Icons Group -->
-          <div
-            class="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm"
-          >
-            <span class="font-medium">Share:</span>
-
-            <!-- Twitter -->
-            <a
-              href="https://twitter.com/intent/tweet?url=https://www.youtube.com/@MrBeast"
-              target="_blank"
-              class="text-blue-500 hover:text-blue-600"
-              title="Share on Twitter"
-            >
-              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.4.36a9.14 9.14 0 0 1-2.88 1.1A4.52 4.52 0 0 0 11 4.77a12.84 12.84 0 0 1-9.3-4.7A4.52 4.52 0 0 0 3.17 9.86a4.5 4.5 0 0 1-2.05-.57v.06a4.52 4.52 0 0 0 3.6 4.42 4.52 4.52 0 0 1-2.04.08 4.52 4.52 0 0 0 4.21 3.13A9.05 9.05 0 0 1 1 19.58a12.76 12.76 0 0 0 6.92 2"
-                ></path>
-              </svg>
-            </a>
-
-            <!-- Facebook -->
-            <a
-              href="https://www.facebook.com/sharer/sharer.php?u=https://www.youtube.com/@MrBeast"
-              target="_blank"
-              class="text-blue-700 hover:text-blue-800"
-              title="Share on Facebook"
-            >
-              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M22 12a10 10 0 1 0-11.5 9.95v-7.05h-2v-2.9h2v-2.2c0-2 1.2-3.1 3-3.1.9 0 1.8.2 1.8.2v2h-1c-1 0-1.3.6-1.3 1.2v1.8h2.2l-.3 2.9h-1.9v7.05A10.01 10.01 0 0 0 22 12"
-                ></path>
-              </svg>
-            </a>
-
-            <!-- WhatsApp -->
-            <a
-              href="https://wa.me/?text=https://www.youtube.com/@MrBeast"
-              target="_blank"
-              class="text-green-600 hover:text-green-700"
-              title="Share on WhatsApp"
-            >
-              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M20.5 3.5A11.9 11.9 0 0 0 12 0a11.9 11.9 0 0 0-10.5 17.8L0 24l6.4-1.7A11.9 11.9 0 0 0 12 24a11.9 11.9 0 0 0 8.5-20.5zM12 22a9.9 9.9 0 0 1-5-1.4l-.4-.2-3.8 1 1-3.7-.3-.4a9.9 9.9 0 1 1 8.5 4.7zm5.5-7.6c-.3-.1-1.8-.9-2.1-1s-.5-.1-.7.1l-.5.6c-.2.2-.4.3-.6.2-.3-.1-1.2-.5-2.2-1.4-.8-.7-1.4-1.7-1.5-2-.1-.2 0-.4.2-.6l.5-.6c.1-.2.1-.4 0-.7s-.9-2.2-1.2-3c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.3.2 1.8.1.5-.1 1.8-.7 2-1.3s.3-1.2.2-1.3c-.1-.1-.2-.1-.3-.2z"
-                ></path>
-              </svg>
-            </a>
-          </div>
+          <Share data={data} />
         </div>
       </div>
     </div>

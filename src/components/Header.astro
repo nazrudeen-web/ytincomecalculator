@@ -1,16 +1,14 @@
+---
+import Logo from "./Logo.astro";
+---
+
 <header class="bg-white shadow">
   <div
     class="mx-auto flex flex-col gap-4 max-w-4xl items-center justify-between px-4 py-4 md:flex-row"
   >
     <div class="flex justify-between w-full md:w-auto">
       <!-- Logo -->
-      <h1 class="text-xl font-bold tracking-wider">
-        <a href="/">
-          <span class="text-red-600 text-lg">CHANNEL</span><span
-            class="text-black">income</span
-          ><span class="text-base font-normal">.com</span>
-        </a>
-      </h1>
+      <Logo />
       <!-- Hamburger (mobile) -->
       <button class="block text-gray-700 md:hidden">
         <svg
@@ -31,7 +29,9 @@
 
     <!-- Nav (desktop) -->
     <nav class="hidden space-x-8 text-sm font-semibold md:flex">
-      <a href="#" class="text-gray-700 hover:text-red-600">Top Channels</a>
+      <a href="#top-channels" class="text-gray-700 hover:text-red-600"
+        >Top Channels</a
+      >
       <a href="#" class="text-gray-700 hover:text-red-600">Blogs</a>
     </nav>
 
