@@ -1,0 +1,25 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const { title, pubDate, description, author } = Astro.props;
+const pageTitle = title;
+const pageDescription = description;
+const pageUrl = `https://channelincome.com${Astro.url.pathname}`;
+const pageImage = "https://channelincome.com/default-og-image.jpg"; // update if you have blog thumbnail
+const isBlog = true;
+---
+
+<BaseLayout {pageTitle} {pageDescription} {pageUrl} {pageImage} {isBlog}>
+  <Header />
+  <main class="max-w-4xl mx-auto px-4 md:px-6 py-12 text-gray-800">
+    <h1 class="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
+    <p class="text-sm text-gray-500 mb-6">By {author} · {pubDate}</p>
+
+    <article class="prose prose-slate prose-lg max-w-none">
+      <slot />
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -5,7 +5,7 @@ const {
   pageTitle = "YouTube Income Calculator - Estimate Channel Earnings",
   pageDescription = "Use our free YouTube income calculator to check how much a channel earns from ad revenue. Works with @handle or channel ID.",
   pageUrl = "https://ytincomecalculator.pages.dev",
-  pageImage = "https://yourdomain.com/default-og-image.jpg", // replace with your own image
+  pageImage = "/default-og-image.png", // replace with your own image
   isBlog = false, // Optional: for blog page customization
 } = Astro.props;
 ---
@@ -19,7 +19,10 @@ const {
     <title>{pageTitle}</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Primary Meta -->
     <meta name="title" content={pageTitle} />

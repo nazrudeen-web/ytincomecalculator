@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../layout/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+
+// Blog post list (add more here)
+const posts = [
+  {
+    title: "How Much Money Do YouTubers Make Per 1,000 Views in 2025?",
+    description:
+      "Learn how much YouTube pays per 1,000 views (CPM) and how creators can increase earnings.",
+    href: "/blog/how-much-youtube-pays-2025",
+    pubDate: "June 28, 2025",
+  },
+];
+const pageTitle = "Blog – YouTube Income Tips & Guides";
+const pageDescription =
+  "Explore helpful blog posts about YouTube income, ad revenue, and creator tips.";
+const pageUrl = "https://channelincome.com/blog";
+const pageImage = "/default-og-image.png";
+const isBlog = true;
+---
+
+<BaseLayout {pageTitle} {pageDescription} {pageUrl} {pageImage} {isBlog}>
+  <Header />
+  <main class="max-w-4xl mx-auto px-4 md:px-6 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold mb-8">Latest Blog Posts</h1>
+
+    <ul class="space-y-8">
+      {
+        posts.map((post) => (
+          <li class="border-b pb-6">
+            <a
+              href={post.href}
+              class="text-2xl font-semibold text-blue-600 hover:underline"
+            >
+              {post.title}
+            </a>
+            <p class="text-sm text-gray-500 mb-1">{post.pubDate}</p>
+            <p class="text-gray-600">{post.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+  <Footer />
+</BaseLayout>
