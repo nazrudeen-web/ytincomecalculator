@@ -6,6 +6,15 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 const { params } = Astro;
 
+export async function getStaticPaths() {
+  // Replace this with real logic to get top channels or cached KV list
+  const topChannels = ["mrbeast", "tseries", "5minutecrafts"];
+
+  return topChannels.map((name) => ({
+    params: { name: `${name}-net-worth` },
+  }));
+}
+
 // 1. Remove "-net-worth" from the end to get clean name
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
 
