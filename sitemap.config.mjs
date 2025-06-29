@@ -1,4 +1,5 @@
-// sitemap.config.mjs
+const site = "https://ytincomecalculator.pages.dev";
+
 export const topChannels = [
   "tseries-net-worth",
   "mrbeast-net-worth",
@@ -12,7 +13,6 @@ export const topChannels = [
   "blackpink-net-worth",
 ];
 
-// Function to return array of URLs for sitemap
 export default async function dynamicPages() {
-  return topChannels.map(slug => `/` + slug);
+  return topChannels.map((slug) => `${site}/${slug}`);
 }
