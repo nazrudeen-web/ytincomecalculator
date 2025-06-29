@@ -1,6 +1,5 @@
 ---
 // src/pages/top-channels.astro
-import { Image } from "astro:assets";
 
 import channels from "../data/top10.json"; // preload data statically or dynamically
 import BaseLayout from "../layout/BaseLayout.astro";
@@ -34,7 +33,7 @@ import Footer from "../components/Footer.astro";
           class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition border border-gray-200"
         >
           <div class="flex items-center gap-4 mb-4">
-            <Image
+            <img
               src={channel.image}
               alt={channel.name}
               width={48}

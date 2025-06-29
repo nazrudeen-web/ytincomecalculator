@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 const topChannels = [
   {
     name: "T-Series",
@@ -74,7 +73,7 @@ const topChannels = [
           class="flex flex-col items-center text-center hover:underline"
           key={channel.slug}
         >
-          <Image
+          <img
             src={channel.image}
             alt={`${channel.name} Profile`}
             width={80}
