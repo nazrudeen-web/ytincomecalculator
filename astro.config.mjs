@@ -1,20 +1,26 @@
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap";
+import dynamicPages from "./sitemap.config.mjs";
 
-export default defineConfig({
-  output: "server",
-  adapter: cloudflare({
-    imageService: "cloudflare",
-  }),
-  image: {
-    domains: ['yt3.ggpht.com'],
-  },
-  // You can add other config here if needed
-  vite: {
-    plugins: [tailwindcss()],
-    // server: {
-    //   hmr: false, // 🔥 turn off hot reload
-    // },
-  },
-});
+export default async function () {
+  return defineConfig({
+    site: "https://ytincomecalculator.pages.dev/",
+    output: "server",
+
+    integrations: [
+      sitemap({
+        customPages: await dynamicPages(), // ✅
+      }),
+    ],
+
+    adapter: cloudflare({
+      imageService: "cloudflare",
+    }),
+
+    vite: {
+      plugins: [tailwindcss()],
+    },
+  });
+}
