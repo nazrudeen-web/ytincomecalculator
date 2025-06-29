@@ -10,7 +10,10 @@ import Logo from "./Logo.astro";
       <!-- Logo -->
       <Logo />
       <!-- Hamburger (mobile) -->
-      <button class="block text-gray-700 md:hidden">
+      <button
+        class="block text-gray-700 md:hidden cursor-pointer"
+        id="mobile-menu-toggle"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-6 w-6"
@@ -28,8 +31,8 @@ import Logo from "./Logo.astro";
     </div>
 
     <!-- Nav (desktop) -->
-    <nav class="hidden space-x-8 text-sm font-semibold md:flex">
-      <a href="#top-channels" class="text-gray-700 hover:text-red-600"
+    <nav class="hidden space-x-8 text-sm font-semibold md:flex" id="mobile-nav">
+      <a href="/top-channels" class="text-gray-700 hover:text-red-600"
         >Top Channels</a
       >
       <a href="/blog" class="text-gray-700 hover:text-red-600">Blogs</a>
@@ -65,3 +68,16 @@ import Logo from "./Logo.astro";
     </form>
   </div>
 </header>
+
+<!-- JS for toggle -->
+<script is:client>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("mobile-menu-toggle");
+    const navMenu = document.getElementById("mobile-nav");
+
+    toggleBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("hidden");
+      navMenu.classList.toggle("flex");
+    });
+  });
+</script>

@@ -3,7 +3,6 @@ import BaseLayout from "../../layout/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 
-// Blog post list (add more here)
 const posts = [
   {
     title: "How Much Money Do YouTubers Make Per 1,000 Views in 2025?",
@@ -13,9 +12,10 @@ const posts = [
     pubDate: "June 28, 2025",
   },
 ];
-const pageTitle = "Blog – YouTube Income Tips & Guides";
+
+const pageTitle = "YouTube Earnings Blog & Creator Tips";
 const pageDescription =
-  "Explore helpful blog posts about YouTube income, ad revenue, and creator tips.";
+  "Read articles about how creators earn on YouTube, CPM rates, niche breakdowns, and ways to grow your channel and revenue.";
 const pageUrl = "https://channelincome.com/blog";
 const pageImage = "/default-og-image.png";
 const isBlog = true;
@@ -23,21 +23,36 @@ const isBlog = true;
 
 <BaseLayout {pageTitle} {pageDescription} {pageUrl} {pageImage} {isBlog}>
   <Header />
-  <main class="max-w-4xl mx-auto px-4 md:px-6 py-12">
-    <h1 class="text-3xl md:text-4xl font-bold mb-8">Latest Blog Posts</h1>
-
-    <ul class="space-y-8">
+  <section
+    class="text-center py-14 bg-gradient-to-br from-blue-900 to-blue-800 text-white"
+  >
+    <h1 class="text-4xl font-bold mb-4">
+      YouTube Earnings Blog & Creator Tips
+    </h1>
+    <p class="text-md max-w-4xl mx-auto text-gray-200">
+      Read articles about how creators earn on YouTube, CPM rates, niche
+      breakdowns, and ways to grow your channel and revenue.
+    </p>
+  </section>
+  <main class="max-w-4xl mx-auto px-4 md:px-6 py-16">
+    <ul class="grid gap-8">
       {
         posts.map((post) => (
-          <li class="border-b pb-6">
+          <li class="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition bg-white p-6">
             <a
               href={post.href}
-              class="text-2xl font-semibold text-blue-600 hover:underline"
+              class="block text-xl md:text-2xl font-semibold text-blue-800 hover:text-blue-700 hover:underline"
             >
               {post.title}
             </a>
-            <p class="text-sm text-gray-500 mb-1">{post.pubDate}</p>
-            <p class="text-gray-600">{post.description}</p>
+            <p class="text-sm text-gray-400 mt-1">{post.pubDate}</p>
+            <p class="text-gray-600 mt-3">{post.description}</p>
+            <a
+              href={post.href}
+              class="inline-block mt-4 text-blue-500 hover:text-blue-700 font-medium text-sm"
+            >
+              Read more →
+            </a>
           </li>
         ))
       }

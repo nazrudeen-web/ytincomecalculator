@@ -2,8 +2,9 @@
 layout: ../../layout/BlogLayout.astro
 title: "How Much Money Do YouTubers Make Per 1,000 Views in 2025?"
 description: "Learn how much YouTube pays per 1,000 views (CPM), what factors affect earnings, and how creators can increase their revenue in 2025."
-pubDate: 2025-06-28
+pubDate: 2025-06-29T14:45:00+04:00
 author: "Naz"
+export: true
 ---
 
 YouTube is one of the most popular ways to earn money online. But one common question is:
@@ -18,12 +19,12 @@ The simple answer is: **It depends**. But let’s explain everything clearly so 
 
 CPM (Cost Per 1000 Impressions) means how much advertisers pay per 1,000 views. YouTubers usually get a share of this as RPM (Revenue per 1,000 views).
 
-| Country        | Average RPM (2025) |
-|----------------|--------------------|
-| 🇺🇸 USA         | $4 - $12            |
-| 🇬🇧 UK          | $3 - $10            |
-| 🇮🇳 India       | $0.5 - $2           |
-| 🌍 Worldwide   | $1 - $5             |
+| Country      | Average RPM (2025) |
+|--------------|--------------------|
+| 🇺🇸 USA      | $4 - $12           |
+| 🇬🇧 UK       | $3 - $10           |
+| 🇮🇳 India    | $0.5 - $2          |
+| 🌍 Worldwide | $1 - $5            |
 
 💡 **Note:** Finance, business, and education videos usually earn more.
 
@@ -44,6 +45,7 @@ CPM (Cost Per 1000 Impressions) means how much advertisers pay per 1,000 views. 
 If a channel gets 100,000 views/month with $2.5 RPM:
 
 100,000 views / 1,000 = 100 blocks
+
 100 × $2.5 = $250/month
 
 

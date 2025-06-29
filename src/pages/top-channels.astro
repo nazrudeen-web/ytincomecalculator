@@ -1,0 +1,75 @@
+---
+// src/pages/top-channels.astro
+
+import channels from "../data/top10.json"; // preload data statically or dynamically
+import BaseLayout from "../layout/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout
+  pageTitle="Top 10 YouTube Channels - 2025"
+  pageDescription="Based on estimated monthly income, views, and subscribers."
+  pageUrl="https://ytincomecalculator.pages.dev/top-channels"
+  pageImage="/default-og-image.png"
+>
+  <Header />
+  <section
+    class="text-center py-10 bg-gradient-to-br from-blue-900 to-blue-800 text-white"
+  >
+    <h1 class="text-4xl font-bold mb-2">Top 10 YouTube Channels - 2025</h1>
+    <p class="text-lg">
+      Based on estimated monthly income, views, and subscribers
+    </p>
+  </section>
+
+  <section
+    class="max-w-4xl mx-auto px-4 py-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+  >
+    {
+      channels.map((channel, index) => (
+        <a
+          href={`/${channel.slug}`}
+          class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition border border-gray-200"
+        >
+          <div class="flex items-center gap-4 mb-4">
+            <img
+              src={channel.image}
+              alt={channel.name}
+              class="w-12 h-12 rounded-full"
+            />
+            <div>
+              <h2 class="text-xl font-semibold">
+                {index + 1}. {channel.name}
+              </h2>
+            </div>
+          </div>
+          <ul class="text-sm space-y-1">
+            <li>
+              Subscribers: <strong>{channel.subscribers}</strong>
+            </li>
+            <li>
+              Total Views: <strong>{channel.totalViews}</strong>
+            </li>
+            <li>
+              Monthly Income: <strong>${channel.estimatedIncome}</strong>
+            </li>
+            <li>
+              Country: <strong>{channel.country}</strong>
+            </li>
+          </ul>
+        </a>
+      ))
+    }
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 py-8 text-sm text-gray-700">
+    <h2 class="text-lg font-semibold mb-2">About This Ranking</h2>
+    <p>
+      This list is based on publicly available YouTube statistics and estimated
+      ad revenue calculations. The actual income may vary based on sponsorships,
+      merchandise, and other monetization methods.
+    </p>
+  </section>
+  <Footer />
+</BaseLayout>

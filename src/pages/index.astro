@@ -6,10 +6,6 @@ import Hero from "../components/Hero.astro";
 import TopChannels from "../components/TopChannels.astro";
 import Footer from "../components/Footer.astro";
 
-// Set page title for SEO
-const pageTitle =
-  "YouTube Earnings Calculator | Income Per View & Channel Stats";
-
 // Get "channel" input from URL (example: ?channel=MrBeast or ?channel=@mrbeast)
 const url = new URL(Astro.request.url);
 const input = url.searchParams.get("channel");
@@ -65,7 +61,7 @@ if (input) {
   pageTitle="YouTube Earnings Calculator - Estimate Income from Any Channel"
   pageDescription="Quickly check how much a YouTube channel earns using our free earnings estimator. Just enter a handle or channel ID."
   pageUrl="https://ytincomecalculator.pages.dev/"
-  pageImage="https://yourdomain.com/images/home-og.jpg"
+  pageImage="/default-og-image.png"
 >
   <Header />
   <Hero />
