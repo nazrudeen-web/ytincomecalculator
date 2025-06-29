@@ -1,4 +1,3 @@
-// sitemap.config.mjs
 export const topChannels = [
   "tseries-net-worth",
   "mrbeast-net-worth",
@@ -12,7 +11,8 @@ export const topChannels = [
   "blackpink-net-worth",
 ];
 
-// Function to return array of URLs for sitemap
-export default async function dynamicPages() {
-  return topChannels.map(slug => `/` + slug);
+export async function getStaticPaths() {
+  return topChannels.map((slug) => ({
+    params: { name: slug },
+  }));
 }

@@ -4,31 +4,29 @@ import NotFound from "./not-found.astro";
 import ChannelDetails from "../components/ChannelDetails.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+
 const { params } = Astro;
 
-// 1. Remove "-net-worth" from the end to get clean name
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
-
-// 2. Build full fetch URL to your Worker API
 const apiUrl = `https://channelincome-backend.ytincome.workers.dev/?channel=@${cleanName}`;
 
-// 3. Fetch channel data
-let data: any = null;
+let data = null;
 let isError = false;
 
 try {
   const response = await fetch(apiUrl);
   data = await response.json();
-  isError = !response.ok || !data || !data.title;
 } catch (err) {
   console.error("Failed to fetch channel data:", err);
   isError = true;
 }
 
-const pageTitle = `${data.title} YouTube Channel Income, Revenue & Earnings`;
-const pageDescription = `Explore how much ${data.title} earns from YouTube ads. Up-to-date stats including views, subscribers, and revenue.`;
+const channelTitle = data?.title ?? "Unknown Channel";
+
+const pageTitle = `${channelTitle} YouTube Channel Income, Revenue & Earnings`;
+const pageDescription = `Explore how much ${channelTitle} earns from YouTube ads. Up-to-date stats including views, subscribers, and revenue.`;
 const pageUrl = `https://ytincomecalculator.pages.dev/${params.name}`;
-const pageImage = data.thumbnail || "/default-og-image.png";
+const pageImage = data?.thumbnail || "/default-og-image.png";
 ---
 
 <BaseLayout
@@ -38,16 +36,6 @@ const pageImage = data.thumbnail || "/default-og-image.png";
   pageImage={pageImage}
 >
   <Header />
-  {
-    isError ? (
-      <>
-        <NotFound />
-      </>
-    ) : (
-      <>
-        <ChannelDetails data={data} />
-      </>
-    )
-  }
+  {isError ? <NotFound /> : <ChannelDetails data={data} />}
   <Footer />
 </BaseLayout>
