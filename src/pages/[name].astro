@@ -1,12 +1,16 @@
 ---
 const { params } = Astro;
 // ❌ Skip if reserved sitemap file name
-if (
-  params.name === "sitemap.xml" ||
-  params.name === "sitemap-index.xml" ||
-  params.name?.startsWith("sitemap-")
-) {
-  throw Astro.redirect("/not-found");
+const reserved = [
+  "sitemap.xml",
+  "sitemap-index.xml",
+  "sitemap-0.xml", // you can add more if needed
+];
+
+if (reserved.includes(params.name)) {
+  throw new Error(
+    `[name].astro should not handle sitemap route: ${params.name}`
+  );
 }
 
 import BaseLayout from "../layout/BaseLayout.astro";
