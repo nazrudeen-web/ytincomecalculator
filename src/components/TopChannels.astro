@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 const topChannels = [
   {
     name: "T-Series",
@@ -67,17 +68,19 @@ const topChannels = [
   <h2 class="text-2xl font-semibold mb-6">Top YouTube Channels</h2>
   <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
     {
-      topChannels.map((channel) => (
+      topChannels.map((channel, index) => (
         <a
           href={`/${channel.slug}`}
           class="flex flex-col items-center text-center hover:underline"
           key={channel.slug}
         >
-          <img
+          <Image
             src={channel.image}
             alt={`${channel.name} Profile`}
+            width={80}
+            height={80}
             class="w-20 h-20 rounded-full object-cover shadow-md"
-            loading="lazy"
+            loading={index < 5 ? "eager" : "lazy"}
           />
           <span class="mt-2 font-medium text-gray-800">{channel.name}</span>
         </a>

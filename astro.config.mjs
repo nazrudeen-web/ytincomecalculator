@@ -7,6 +7,9 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "cloudflare",
   }),
+  image: {
+    domains: ['yt3.ggpht.com'],
+  },
   // You can add other config here if needed
   vite: {
     plugins: [tailwindcss()],

@@ -32,20 +32,22 @@ const pageImage = data.thumbnail || "/default-og-image.png";
 ---
 
 <BaseLayout
-   pageTitle={pageTitle}
+  pageTitle={pageTitle}
   pageDescription={pageDescription}
   pageUrl={pageUrl}
   pageImage={pageImage}
 >
+  <Header />
   {
     isError ? (
-        <Header />
+      <>
         <NotFound />
-        <Footer/>
+      </>
     ) : (
-        <Header />
+      <>
         <ChannelDetails data={data} />
-        <Footer/>
+      </>
     )
   }
+  <Footer />
 </BaseLayout>
