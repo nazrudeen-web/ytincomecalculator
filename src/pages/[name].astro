@@ -1,11 +1,19 @@
 ---
+const { params } = Astro;
+// ❌ Skip if reserved sitemap file name
+if (
+  params.name === "sitemap.xml" ||
+  params.name === "sitemap-index.xml" ||
+  params.name?.startsWith("sitemap-")
+) {
+  throw Astro.redirect("/not-found");
+}
+
 import BaseLayout from "../layout/BaseLayout.astro";
 import NotFound from "./not-found.astro";
 import ChannelDetails from "../components/ChannelDetails.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-
-const { params } = Astro;
 
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
 const apiUrl = `https://channelincome-backend.ytincome.workers.dev/?channel=@${cleanName}`;
