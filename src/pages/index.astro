@@ -8,7 +8,10 @@ import Footer from "../components/Footer.astro";
 
 // Get "channel" input from URL (example: ?channel=MrBeast or ?channel=@mrbeast)
 const url = new URL(Astro.request.url);
-const input = url.searchParams.get("channel");
+const pathname = url.pathname;
+
+// Only run redirect logic if user is on homepage AND ?channel exists
+const input = pathname === '/' ? url.searchParams.get("channel") : null;
 
 // Clean user input: remove @ or get path from full URL
 function cleanInput(raw) {

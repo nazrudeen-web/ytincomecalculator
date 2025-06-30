@@ -1,7 +1,7 @@
 import { defineConfig } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
 import tailwind from '@astrojs/tailwind';
-import sitemap from '@astrojs/sitemap';
+
 
 const dynamicChannels = [
   'mrbeast-net-worth',
@@ -33,11 +33,6 @@ export default defineConfig({
   }),
   site: 'https://ytincomecalculator.pages.dev',
   integrations: [
-    sitemap({
-      customPages: dynamicChannels.map(
-        (handle) => `https://ytincomecalculator.pages.dev/${handle}`
-      ),
-    }),
     tailwind(),
   ],
 });
