@@ -6,7 +6,12 @@ module.exports = {
     './src/**/*.{astro,html,js,jsx,ts,tsx,md}',
   ],
   theme: {
-    extend: {},
+    extend: {
+       fontFamily: {
+        poppins: ['Poppins', 'sans-serif'], // add your custom name
+        sora: ['Sora', 'sans-serif'], // add your custom name
+      },
+    },
   },
   plugins: [require('@tailwindcss/typography')],
 };

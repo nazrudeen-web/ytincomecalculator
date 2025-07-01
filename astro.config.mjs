@@ -3,28 +3,6 @@ import cloudflare from "@astrojs/cloudflare";
 import tailwind from '@astrojs/tailwind';
 
 
-const dynamicChannels = [
-  'mrbeast-net-worth',
-  'tseries-net-worth',
-  'cocomelon-net-worth',
-  'sonyentertainmentindia-net-worth',
-  'kidsdianashow-net-worth',
-  'pewdiepie-net-worth',
-  'vladandniki-net-worth',
-  'like-nastya-net-worth',
-  'zachking-net-worth',
-  'wwe-net-worth',
-  'blackpink-net-worth',
-  'goldmines-net-worth',
-  'bangtan-net-worth',
-  '5minutecrafts-net-worth',
-  'fernanfloo-net-worth',
-  'justinbieber-net-worth',
-  'badabun-net-worth',
-  'juegodetonos-net-worth',
-  'elrubiusomg-net-worth',
-  'ed-sheeran-net-worth',
-];
 
 export default defineConfig({
   output: "server",
