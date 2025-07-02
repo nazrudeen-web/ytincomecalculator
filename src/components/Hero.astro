@@ -1,16 +1,16 @@
 <section
-  class="border-b border-gray-300 bg-gray-100 px-4 py-6 text-gray-900 md:py-16"
+  class="border-b border-divider bg-bcSecondary py-6 text-gray-900 md:py-16"
 >
   <div
-    class="mx-auto max-w-4xl rounded-xl bg-white px-4 pt-10 text-center shadow md:pt-16 md:px-10"
+    class="mx-auto max-w-4xl rounded-xl bg-bcPrimary px-4 py-8 text-center shadow md:py-16 md:px-10"
   >
-    <h2 class="text-3xl leading-tight font-extrabold text-gray-900 font-sora">
-      Discover How Much Money YouTubers Really Make
-    </h2>
-    <p class="mt-3 text-base text-gray-600 max-w-4xl mx-auto">
-      Use our free YouTube earnings calculator to estimate how much any channel
-      makes from ads. Just enter a name, @handle, or full YouTube link — fast,
-      easy, and accurate.
+    <h1
+      class="text-2xl tracking-tight uppercase font-extrabold text-tPrimary font-poppins md:text-3xl"
+    >
+      How Much Do YouTubers Really Make?
+    </h1>
+    <p class="mt-2 text-base text-tSecondary max-w-4xl mx-auto">
+      Discover channel income using real-time data.
     </p>
 
     <!-- Search Form -->
@@ -19,7 +19,7 @@
         <!-- Input with icon on the left -->
         <div class="relative flex-1">
           <span
-            class="absolute inset-y-0 left-3 flex items-center text-gray-400"
+            class="absolute inset-y-0 left-3 flex items-center text-tSecondary"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -39,35 +39,66 @@
           <input
             type="text"
             name="channel"
-            placeholder="e.g. @mrbeast or full YouTube URL"
-            class="w-full rounded-md border border-red-600 py-3 pr-4 pl-10 text-base text-gray-800 placeholder-gray-400 shadow-md focus:outline-none focus:!border-blue-800 focus:ring-1 focus:!ring-blue-800"
+            id="channel-input"
+            placeholder="Example: @username, channel ID, or full YouTube URL"
+            class="w-full bg-bcSecondary rounded-md border border-tSecondary py-4 pr-6 pl-10 text-base text-gray-800 shadow-md focus:outline-none focus:!border-accent focus:ring-1 focus:!ring-accent"
           />
         </div>
 
         <!-- CTA Button -->
         <button
           type="submit"
-          class="w-full rounded-md bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-blue-800 sm:w-auto cursor-pointer"
-          >Estimate YouTube Income</button
+          class="w-full rounded-md bg-tPrimary px-6 py-3 text-base font-medium text-white hover:bg-accent sm:w-auto cursor-pointer tracking-wider"
+          >Estimate Income</button
         >
       </div>
     </form>
 
     <!-- Example tags -->
     <div
-      class="mt-10 flex flex-wrap justify-center items-center gap-2 text-sm text-gray-600 font-medium"
+      class="mt-6 flex flex-wrap justify-center items-center gap-4 text-sm text-tPrimary font-medium"
     >
-      <span class="rounded-full bg-gray-100 px-4 py-2">@mrbeast</span>
-      <span class="rounded-full bg-gray-100 px-4 py-2"
-        >UCX6OQ3DkcsbYNE6H8uQQuVA</span
+      <button
+        class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
+        data-channel="@mrbeast"
       >
-      <span class="rounded-full bg-gray-100 px-4 py-2"
-        >https://youtube.com/@mrbeast</span
+        @mrbeast
+      </button>
+      <button
+        class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
+        data-channel="https://www.youtube.com/@pewdiepie"
       >
+        https://youtube.com/@pewdiepie
+      </button>
+      <button
+        class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
+        data-channel="TSeries"
+      >
+        TSeries
+      </button>
     </div>
-    <p class="mt-10 pb-14 text-sm text-blue-800">
+
+    <p class="mt-8 text-base text-tPrimary">
       🛡️ <strong>Powered by the official YouTube API</strong> — real-time, accurate
       results from YouTube directly.
     </p>
   </div>
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tags = document.querySelectorAll("[data-channel]");
+    const input = document.getElementById("channel-input");
+
+    if (!input) return;
+
+    tags.forEach((tag) => {
+      tag.addEventListener("click", () => {
+        const value = tag.getAttribute("data-channel");
+        input.value = value;
+        console.log(value);
+        input.focus();
+      });
+    });
+  });
+</script>

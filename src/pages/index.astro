@@ -5,13 +5,14 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import TopChannels from "../components/TopChannels.astro";
 import Footer from "../components/Footer.astro";
+import HowItWorks from "../components/HowItWorks.astro";
 
 // Get "channel" input from URL (example: ?channel=MrBeast or ?channel=@mrbeast)
 const url = new URL(Astro.request.url);
 const pathname = url.pathname;
 
 // Only run redirect logic if user is on homepage AND ?channel exists
-const input = pathname === '/' ? url.searchParams.get("channel") : null;
+const input = pathname === "/" ? url.searchParams.get("channel") : null;
 
 // Clean user input: remove @ or get path from full URL
 function cleanInput(raw) {
@@ -68,6 +69,7 @@ if (input) {
 >
   <Header />
   <Hero />
+  <HowItWorks />
   <TopChannels />
   <Footer />
 </BaseLayout>
