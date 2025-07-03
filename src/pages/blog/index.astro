@@ -23,40 +23,44 @@ const isBlog = true;
 
 <BaseLayout {pageTitle} {pageDescription} {pageUrl} {pageImage} {isBlog}>
   <Header />
-  <section
-    class="text-center py-14 bg-gradient-to-br from-blue-900 to-blue-800 text-white"
-  >
-    <h1 class="text-4xl font-bold mb-4">
-      YouTube Earnings Blog & Creator Tips
-    </h1>
-    <p class="text-md max-w-4xl mx-auto text-gray-200">
-      Read articles about how creators earn on YouTube, CPM rates, niche
-      breakdowns, and ways to grow your channel and revenue.
-    </p>
+  <!-- Hero Section -->
+  <section class="text-center py-14 bg-bcSecondary text-gray-900">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-xl md:text-2xl font-bold mb-4 uppercase">
+        YouTube Earnings Blog & Creator Tips
+      </h1>
+      <p class="text-base max-w-3xl mx-auto text-gray-600">
+        Learn how creators grow income on YouTube. Explore monetization
+        strategies, CPM insights, and channel growth tips.
+      </p>
+    </div>
   </section>
-  <main class="max-w-4xl mx-auto px-4 md:px-6 py-16">
-    <ul class="grid gap-8">
+
+  <main class="max-w-4xl mx-auto px-4 md:px-6 py-10">
+    <h2 class="text-xl font-semibold ml-2 tracking-wide mb-6 text-gray-800">
+      Explore the Latest Posts
+    </h2>
+    <ul class="grid gap-12 md:grid-cols-2">
       {
         posts.map((post) => (
-          <li class="rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition bg-white p-6">
-            <a
-              href={post.href}
-              class="block text-xl md:text-2xl font-semibold text-blue-800 hover:text-blue-700 hover:underline"
-            >
-              {post.title}
-            </a>
-            <p class="text-sm text-gray-400 mt-1">{post.pubDate}</p>
-            <p class="text-gray-600 mt-3">{post.description}</p>
-            <a
-              href={post.href}
-              class="inline-block mt-4 text-blue-500 hover:text-blue-700 font-medium text-sm"
-            >
-              Read more →
+          <li class="group border border-divider rounded-xl bg-white p-5 transition hover:border-red-400">
+            <a href={post.href} class="block space-y-2">
+              <h3 class="text-lg font-semibold text-gray-900 group-hover:text-red-600 transition">
+                {post.title}
+              </h3>
+              <p class="text-xs text-gray-400">{post.pubDate}</p>
+              <p class="text-sm text-gray-600 leading-relaxed">
+                {post.description}
+              </p>
+              <span class="inline-block mt-2 text-sm text-red-600 font-medium group-hover:underline">
+                Read more →
+              </span>
             </a>
           </li>
         ))
       }
     </ul>
   </main>
+
   <Footer />
 </BaseLayout>

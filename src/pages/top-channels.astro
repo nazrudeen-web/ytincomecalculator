@@ -3,7 +3,7 @@
 
 import channels from "../data/top10.json"; // preload data statically or dynamically
 import BaseLayout from "../layout/BaseLayout.astro";
-import Header from "../components/Header.astro";
+import HeaderWithForm from "../components/HeaderWithForm.astro";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -13,12 +13,12 @@ import Footer from "../components/Footer.astro";
   pageUrl="https://ytincomecalculator.pages.dev/top-channels"
   pageImage="/default-og-image.png"
 >
-  <Header />
-  <section
-    class="text-center py-10 bg-gradient-to-br from-blue-900 to-blue-800 text-white"
-  >
-    <h1 class="text-4xl font-bold mb-2">Top 10 YouTube Channels - 2025</h1>
-    <p class="text-lg">
+  <HeaderWithForm />
+  <section class="text-center pt-14 text-tPrimary">
+    <h1 class="text-xl font-bold mb-2 uppercase md:text-2xl">
+      Top 10 YouTube Channels - 2025
+    </h1>
+    <p class="text-sm text-tSecondary md:text-base md:mb-4">
       Based on estimated monthly income, views, and subscribers
     </p>
   </section>

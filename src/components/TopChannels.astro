@@ -1,75 +1,22 @@
 ---
-const topChannels = [
-  {
-    name: "T-Series",
-    slug: "tseries-net-worth",
-    image:
-      "https://yt3.ggpht.com/VunTf0NzCeboiPjbesBdnQuxaF3Lja7UGRbBGQAWRJgMSTj9TTLO3pS1X9qPOJGCNnmPrXeY=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "MrBeast",
-    slug: "mrbeast-net-worth",
-    image:
-      "https://yt3.ggpht.com/nxYrc_1_2f77DoBadyxMTmv7ZpRZapHR5jbuYe7PlPd5cIRJxtNNEYyOC0ZsxaDyJJzXrnJiuDE=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "Cocomelon",
-    slug: "cocomelon-net-worth",
-    image:
-      "https://yt3.ggpht.com/ytc/AIdro_lPfVIUJedPeT8Sa0sR1OoH3ehJFJC16RcyvFgvduFPp_k=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "SET India",
-    slug: "setindia-net-worth",
-    image:
-      "https://yt3.ggpht.com/vmmZsYmryt238vqck4KAYf69gOSu22ZfqVE3rwT1tYz4hr68xl7crIUK7kghQgR6RiB9IlQ5mQ=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "Kids Diana Show",
-    slug: "kidsdianashow-net-worth",
-    image:
-      "https://yt3.ggpht.com/ytc/AIdro_nuak4aeQJInwMJxsb8MNlnuOKktlhlLQQl_7tnWoSF5no=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "Like Nastya",
-    slug: "likenastyaofficial-net-worth",
-    image:
-      "https://yt3.ggpht.com/ytc/AIdro_mVv_9v6t_6ni8YIQZWxmabSsNCVTyGQ48CHQ8-2W-OQtM=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "PewDiePie",
-    slug: "pewdiepie-net-worth",
-    image:
-      "https://yt3.ggpht.com/vik8mAiwHQbXiFyKfZ3__p55_VBdGvwxPpuPJBBwdbF0PjJxikXhrP-C3nLQAMAxGNd_-xQCIg=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "Vlad and Niki",
-    slug: "vladandniki-net-worth",
-    image:
-      "https://yt3.ggpht.com/il7dQx5fz3qs2ykOvWQVhtjT-_grY_oPmXlah13q694r_5zUS_7M33pBuUC34Cq0VearBaT1NOE=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "Zee Music Company",
-    slug: "zeemusiccompany-net-worth",
-    image:
-      "https://yt3.ggpht.com/zGnrFUqmF6Xp2tM8ecG9sVXyHjJUrqa7GnNV_kATAdAvSwfgIg7693GURHASA7C6OPK3YmGZ=s800-c-k-c0x00ffffff-no-rj",
-  },
-  {
-    name: "BLACKPINK",
-    slug: "blackpink-net-worth",
-    image:
-      "https://yt3.ggpht.com/U3VrCkKjzTpQ3VYv4SCPjNfDHeJV-swGNnhLYhr0nV4lZz_GVUNzK4EB-HFRfKv9S5VNh14uAg=s800-c-k-c0x00ffffff-no-rj",
-  },
-];
+import channels from "../data/top10.json";
 ---
 
 <div class="max-w-4xl mx-auto my-16 px-4" id="top-channels">
-  <h2 class="text-xl font-bold mb-8 uppercase text-center">
+  <h2 class="text-2xl font-bold mb-2 uppercase text-center">
     Top YouTube Channels
   </h2>
+
+  <!-- Description -->
+  <p class="text-center text-gray-600 mb-12 text-base">
+    Explore the most popular YouTube creators and see how much they might earn
+    from ads.
+  </p>
+
+  <!-- Grid of Channels -->
   <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-6">
     {
-      topChannels.map((channel, index) => (
+      channels.map((channel, index) => (
         <a
           href={`/${channel.slug}`}
           class="flex flex-col items-center text-center hover:underline"
@@ -87,5 +34,28 @@ const topChannels = [
         </a>
       ))
     }
+  </div>
+
+  <!-- View More Button -->
+  <div class="mt-8 text-center">
+    <a
+      href="/top-channels"
+      class="inline-flex items-center gap-2 rounded-lg bg-tPrimary px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"></path>
+      </svg>
+      View More Channels
+    </a>
   </div>
 </div>

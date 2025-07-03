@@ -5,11 +5,11 @@
     class="mx-auto max-w-4xl rounded-xl bg-bcPrimary px-4 py-8 text-center shadow md:py-16 md:px-10"
   >
     <h1
-      class="text-2xl tracking-tight uppercase font-extrabold text-tPrimary font-poppins md:text-3xl"
+      class="text-xl tracking-tight uppercase font-extrabold text-tPrimary font-poppins md:text-3xl"
     >
       How Much Do YouTubers Really Make?
     </h1>
-    <p class="mt-2 text-base text-tSecondary max-w-4xl mx-auto">
+    <p class="mt-2 text-sm text-tSecondary max-w-4xl mx-auto md:text-base">
       Discover channel income using real-time data.
     </p>
 
@@ -41,7 +41,7 @@
             name="channel"
             id="channel-input"
             placeholder="Example: @username, channel ID, or full YouTube URL"
-            class="w-full bg-bcSecondary rounded-md border border-tSecondary py-4 pr-6 pl-10 text-base text-gray-800 shadow-md focus:outline-none focus:!border-accent focus:ring-1 focus:!ring-accent"
+            class="w-full bg-bcSecondary rounded-md border border-red-500 py-4 pr-6 pl-10 text-base text-gray-800 shadow-md focus:outline-none focus:!border-accent focus:ring-1 focus:!ring-accent"
           />
         </div>
 
@@ -66,19 +66,19 @@
       </button>
       <button
         class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
-        data-channel="https://www.youtube.com/@pewdiepie"
-      >
-        https://youtube.com/@pewdiepie
-      </button>
-      <button
-        class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
         data-channel="TSeries"
       >
         TSeries
       </button>
+      <button
+        class="rounded-md bg-bTag px-4 py-2 hover:bg-gray-300 transition"
+        data-channel="https://www.youtube.com/@pewdiepie"
+      >
+        https://youtube.com/@pewdiepie
+      </button>
     </div>
 
-    <p class="mt-8 text-base text-tPrimary">
+    <p class="mt-8 text-sm text-tPrimary">
       🛡️ <strong>Powered by the official YouTube API</strong> — real-time, accurate
       results from YouTube directly.
     </p>

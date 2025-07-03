@@ -45,6 +45,38 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body class="font-poppins">
+    <!-- Full-page Loader -->
+    <div
+      id="global-loader"
+      class="fixed inset-0 z-50 hidden flex flex-col items-center justify-center bg-white/70 backdrop-blur-md"
+    >
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-red-500 drop-shadow-md"
+        style="border-top-color:#DC2626"
+      >
+      </div>
+      <p
+        class="mt-4 text-sm font-semibold text-gray-800 select-none animate-pulse"
+      >
+        Loading, please wait…
+      </p>
+    </div>
+
     <slot />
+
+    <script>
+      const loader = document.getElementById("global-loader");
+      const form = document.querySelector("form");
+
+      if (form && loader) {
+        form.addEventListener("submit", () => {
+          loader.classList.remove("hidden");
+        });
+      }
+
+      window.addEventListener("load", () => {
+        loader.classList.add("hidden");
+      });
+    </script>
   </body>
 </html>

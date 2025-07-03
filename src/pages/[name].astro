@@ -4,7 +4,7 @@ const { params } = Astro;
 import BaseLayout from "../layout/BaseLayout.astro";
 import NotFound from "./not-found.astro";
 import ChannelDetails from "../components/ChannelDetails.astro";
-import Header from "../components/Header.astro";
+import HeaderWithForm from "../components/HeaderWithForm.astro";
 import Footer from "../components/Footer.astro";
 
 const cleanName = (params.name ?? "").replace(/-net-worth$/, "");
@@ -35,7 +35,7 @@ const pageImage = data?.thumbnail || "/default-og-image.png";
   pageUrl={pageUrl}
   pageImage={pageImage}
 >
-  <Header />
+  <HeaderWithForm />
   {isError ? <NotFound /> : <ChannelDetails data={data} />}
   <Footer />
 </BaseLayout>
