@@ -2,7 +2,7 @@
 import channels from "../data/top10.json";
 ---
 
-<div class="max-w-4xl mx-auto my-16 px-4" id="top-channels">
+<div class="max-w-4xl mx-auto mt-16 px-4 border-b border-divider">
   <h2 class="text-2xl font-bold mb-2 uppercase text-center">
     Top YouTube Channels
   </h2>
@@ -23,7 +23,7 @@ import channels from "../data/top10.json";
           key={channel.slug}
         >
           <img
-            src={channel.image}
+            src={`/images/${channel.slug}.webp`}
             alt={`${channel.name} Profile`}
             width={80}
             height={80}
@@ -37,7 +37,7 @@ import channels from "../data/top10.json";
   </div>
 
   <!-- View More Button -->
-  <div class="mt-8 text-center">
+  <div class="mt-8 text-center pb-16">
     <a
       href="/top-channels"
       class="inline-flex items-center gap-2 rounded-lg bg-tPrimary px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
