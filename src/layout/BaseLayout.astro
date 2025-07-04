@@ -74,7 +74,8 @@ const {
         });
       }
 
-      window.addEventListener("load", () => {
+      // pageshow works on normal load and back/forward navigation
+      window.addEventListener("pageshow", () => {
         loader.classList.add("hidden");
       });
     </script>
