@@ -1,10 +1,43 @@
 ---
 // src/pages/top-channels.astro
+import { fetchTopChannels } from "../data/topChannelsFetch";
+const results = (await fetchTopChannels())
 
-import channels from "../data/top10.json"; // preload data statically or dynamically
 import BaseLayout from "../layout/BaseLayout.astro";
 import HeaderWithForm from "../components/HeaderWithForm.astro";
 import Footer from "../components/Footer.astro";
+
+function formatNumber(n) {
+  return new Intl.NumberFormat("en", {
+    notation: "compact",
+    compactDisplay: "short",
+    maximumFractionDigits: 1,
+  }).format(n);
+}
+
+function formatIncomeNumber(num) {
+  const rounded = Math.round(num * 10) / 10;  // round to 1 decimal place
+  return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
+}
+
+function formatUSD(amount) {
+  if (amount < 1000) {
+    return "$" + amount.toString();
+  } else if (amount < 1000000) {
+    return (
+      "$" +
+      new Intl.NumberFormat("en", {
+        maximumFractionDigits: 0,
+      }).format(amount)
+    );
+  } else if (amount < 1000000000) {
+    const millionAmount = amount / 1000000;
+    return "$" + formatIncomeNumber(millionAmount) + " million";
+  } else {
+    const billionAmount = amount / 1000000000;
+    return "$" + formatIncomeNumber(billionAmount) + " billion";
+  }
+}
 ---
 
 <BaseLayout
@@ -27,7 +60,7 @@ import Footer from "../components/Footer.astro";
     class="max-w-4xl mx-auto px-4 py-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
   >
     {
-      channels.map((channel, index) => (
+      results.map((channel, index) => (
         <a
           href={`/${channel.slug}`}
           class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition border border-gray-200"
@@ -49,13 +82,13 @@ import Footer from "../components/Footer.astro";
           </div>
           <ul class="text-sm space-y-1">
             <li>
-              Subscribers: <strong>{channel.subscribers}</strong>
+              Subscribers: <strong>{formatNumber(channel.subscriberCount)}</strong>
             </li>
             <li>
-              Total Views: <strong>{channel.totalViews}</strong>
+              Total Views: <strong>{formatNumber(channel.viewCount)}</strong>
             </li>
             <li>
-              Monthly Income: <strong>${channel.estimatedIncome}</strong>
+              Monthly Income: <strong>{formatUSD(channel.monthlyIncome)}</strong>
             </li>
             <li>
               Country: <strong>{channel.country}</strong>

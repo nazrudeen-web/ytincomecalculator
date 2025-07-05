@@ -16,6 +16,11 @@ let isError = false;
 try {
   const response = await fetch(apiUrl);
   data = await response.json();
+  // Check for required fields to validate real channel data
+  if (!data || !data.title || !data.subscriberCount || !data.viewCount) {
+    isError = true;
+  }
+
 } catch (err) {
   console.error("Failed to fetch channel data:", err);
   isError = true;

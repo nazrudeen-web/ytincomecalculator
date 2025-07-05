@@ -41,72 +41,33 @@ function getFlagEmoji(code) {
 }
 const flag = getFlagEmoji(countryFull);
 
-// Calculate Income
 
-// 1. Estimate channel age
-const publishedDateObj = new Date(data.publishedAt);
-const today = new Date();
-const channelAgeInDays = Math.max(
-  1,
-  Math.round((today - publishedDateObj) / (1000 * 60 * 60 * 24))
-);
-
-// 2. Estimated daily views
-const avgDailyViews = Math.round(data.viewCount / channelAgeInDays);
-
-// 3. Define CPM by country
-const countryCPMMap = {
-  US: 5.0,
-  CA: 4.5,
-  GB: 4.5,
-  AU: 4.5,
-  DE: 4.0,
-  FR: 4.0,
-  AE: 4.2,
-  IN: 1.2,
-  ID: 1.0,
-  PH: 1.0,
-  PK: 0.9,
-  BD: 0.8,
-  VN: 1.0,
-  BR: 1.5,
-  MX: 2.0,
-  NG: 0.8,
-  RU: 2.5,
-  ZA: 1.8,
-  TR: 2.0,
-  IT: 3.5,
-  ES: 3.0,
-  NL: 4.0,
-  SE: 4.2,
-  JP: 3.5,
-  KR: 3.0,
-};
-
-// 4. Get accurate CPM based on country, fallback to default
-const defaultCPM = 1.0;
-const countryCode = data.country?.toUpperCase();
-const cpm = countryCPMMap[countryCode] || defaultCPM;
-
-// 5. Estimate earnings function
-function estimateEarnings(views, cpm) {
-  return ((views * cpm) / 1000).toFixed(0); // return as string without decimal
+// Format function (e.g. "$1.2K")
+function formatIncomeNumber(num) {
+  const rounded = Math.round(num * 10) / 10;  // round to 1 decimal place
+  return Number.isInteger(rounded) ? rounded.toString() : rounded.toFixed(1);
 }
 
-// 6. Calculate earnings
-const dailyEarnings = estimateEarnings(avgDailyViews, cpm);
-const monthlyEarnings = estimateEarnings(avgDailyViews * 30, cpm);
-const yearlyEarnings = estimateEarnings(avgDailyViews * 365, cpm);
-
-// 7. Format function (e.g. "$1.2K")
 function formatUSD(amount) {
-  return (
-    "$" +
-    new Intl.NumberFormat("en", {
-      maximumFractionDigits: 0,
-    }).format(amount)
-  );
+  if (amount < 1000) {
+    return "$" + amount.toString();
+  } else if (amount < 1000000) {
+    return (
+      "$" +
+      new Intl.NumberFormat("en", {
+        maximumFractionDigits: 0,
+      }).format(amount)
+    );
+  } else if (amount < 1000000000) {
+    const millionAmount = amount / 1000000;
+    return "$" + formatIncomeNumber(millionAmount) + " million";
+  } else {
+    const billionAmount = amount / 1000000000;
+    return "$" + formatIncomeNumber(billionAmount) + " billion";
+  }
 }
+
+
 ---
 
 <!-- Container -->
@@ -120,9 +81,9 @@ function formatUSD(amount) {
     >
       <!-- Banner image (with fallback if no URL) -->
       {
-        data.bannerExternalUrl && (
+        data.bannerImage && (
           <img
-            src={data.bannerExternalUrl}
+            src={data.bannerImage}
             alt="Banner"
             class="h-full w-full object-cover"
             loading="lazy"
@@ -261,7 +222,7 @@ function formatUSD(amount) {
     <div class="rounded-lg bg-yellow-50 p-4 shadow-sm">
       <div class="text-lg font-semibold text-gray-800">Daily Earnings</div>
       <div class="mt-1 text-xl font-bold text-yellow-600">
-        {formatUSD(dailyEarnings)}
+        {formatUSD(data.dailyIncome)}
       </div>
     </div>
 
@@ -269,7 +230,7 @@ function formatUSD(amount) {
     <div class="rounded-lg bg-green-50 p-4 shadow-sm">
       <div class="text-lg font-semibold text-gray-800">Monthly Earnings</div>
       <div class="mt-1 text-xl font-bold text-green-600">
-        {formatUSD(monthlyEarnings)}
+        {formatUSD(data.monthlyIncome)}
       </div>
     </div>
 
@@ -277,7 +238,7 @@ function formatUSD(amount) {
     <div class="rounded-lg bg-blue-50 p-4 shadow-sm">
       <div class="text-lg font-semibold text-gray-800">Yearly Earnings</div>
       <div class="mt-1 text-xl font-bold text-blue-600">
-        {formatUSD(yearlyEarnings)}
+        {formatUSD(data.yearlyIncome)}
       </div>
     </div>
   </div>
@@ -301,9 +262,7 @@ function formatUSD(amount) {
       <p>
         This depends on ad revenue, viewer location, CPM rate, and sponsors.
         Based on average views, estimated monthly income is <strong
-          >{formatUSD(monthlyEarnings.low)} – {
-            formatUSD(monthlyEarnings.high)
-          }</strong
+          >{formatUSD(data.monthlyIncome)}</strong
         >.
       </p>
     </div>
