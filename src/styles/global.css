@@ -5,3 +5,9 @@
 @tailwind utilities;
 
 
+article h1:not([class]), 
+section h1:not([class]), 
+nav h1:not([class]), 
+aside h1:not([class]) {
+  font-size: 2em;
+}
