@@ -20,7 +20,6 @@ try {
   if (!data || !data.title || !data.subscriberCount || !data.viewCount) {
     isError = true;
   }
-
 } catch (err) {
   console.error("Failed to fetch channel data:", err);
   isError = true;
@@ -31,7 +30,7 @@ const channelTitle = data?.title ?? "Unknown Channel";
 const pageTitle = `${channelTitle} YouTube Channel Income, Revenue & Earnings`;
 const pageDescription = `Explore how much ${channelTitle} earns from YouTube ads. Up-to-date stats including views, subscribers, and revenue.`;
 const pageUrl = `https://ytincomecalculator.pages.dev/${params.name}`;
-const pageImage = data?.thumbnail || "/default-og-image.png";
+const pageImage = data?.thumbnail ?? null;
 ---
 
 <BaseLayout

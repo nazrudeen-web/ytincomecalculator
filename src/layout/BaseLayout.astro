@@ -5,9 +5,25 @@ const {
   pageTitle = "YouTube Income Calculator - Estimate Channel Earnings",
   pageDescription = "Use our free YouTube income calculator to check how much a channel earns from ad revenue. Works with @handle or channel ID.",
   pageUrl = "https://ytincomecalculator.pages.dev",
-  pageImage = "/default-og-image.png", // replace with your own image
+  pageImage = null, // replace with your own image
   isBlog = false, // Optional: for blog page customization
 } = Astro.props;
+
+// ✅ Build JSON-LD Schema
+const schemaJSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: pageTitle,
+  url: pageUrl,
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "All",
+  description: pageDescription,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+};
 ---
 
 <!doctype html>
@@ -17,7 +33,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
-
+    <link rel="canonical" href={pageUrl} />
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -27,22 +43,39 @@ const {
     <!-- Primary Meta -->
     <meta name="title" content={pageTitle} />
     <meta name="description" content={pageDescription} />
+    <meta
+      name="keywords"
+      content="YouTube income calculator, channel earnings, YouTube revenue estimate, YouTube CPM, YouTube ads income"
+    />
+
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={isBlog ? "article" : "website"} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:image" content={pageImage} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={pageUrl} />
     <meta property="twitter:title" content={pageTitle} />
     <meta property="twitter:description" content={pageDescription} />
-    <meta property="twitter:image" content={pageImage} />
+    {
+      pageImage && (
+        <>
+          <meta property="og:image" content={pageImage} />
+          <meta property="twitter:image" content={pageImage} />
+        </>
+      )
+    }
 
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(schemaJSONLD)}
+    />
+
+    <link rel="sitemap" href="/sitemap.xml" />
   </head>
   <body class="font-poppins">
     <!-- Full-page Loader -->
